@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "906634519318",
+    "firebase_url": "https://vprojetos-auth-db7be.firebaseio.com",
+    "project_id": "vprojetos-auth-db7be",
+    "storage_bucket": "vprojetos-auth-db7be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:906634519318:android:eb7ea7f58ab534fe26a637",
+        "android_client_info": {
+          "package_name": "com.example.vprojetos"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "906634519318-b8ar9vsa2eu8qqbslqic0fvm11v9422a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJMTWwA8JX-OzGxlV8W7jDhwjD0-1Z_2Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "906634519318-b8ar9vsa2eu8qqbslqic0fvm11v9422a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
