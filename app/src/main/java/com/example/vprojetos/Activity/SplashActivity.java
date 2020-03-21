@@ -1,4 +1,4 @@
-package com.example.vprojetos;
+package com.example.vprojetos.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
+
+import com.example.vprojetos.R;
 
 public class SplashActivity extends AppCompatActivity {
 

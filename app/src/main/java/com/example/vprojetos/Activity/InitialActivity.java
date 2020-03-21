@@ -1,4 +1,4 @@
-package com.example.vprojetos;
+package com.example.vprojetos.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
+
+import com.example.vprojetos.R;
 
 public class InitialActivity extends AppCompatActivity {
 
