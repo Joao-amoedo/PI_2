@@ -2,8 +2,8 @@ package com.example.vprojetos.model;
 
 public class Usuario {
 
-    private String nome;
-    private String sobrenome;
+    private String nomeCompleto;
+    private String CPF;
     private String email;
     private String senha;
     private String confirmarSenha;
@@ -13,19 +13,19 @@ public class Usuario {
     }
 
     public String getNome() {
-        return nome;
+        return nomeCompleto;
     }
 
     public void setNome(String nome) {
-        this.nome = nome;
+        this.nomeCompleto = nome;
     }
 
     public String getSobrenome() {
-        return sobrenome;
+        return CPF;
     }
 
     public void setSobrenome(String sobrenome) {
-        this.sobrenome = sobrenome;
+        this.CPF = sobrenome;
     }
 
     public String getEmail() {

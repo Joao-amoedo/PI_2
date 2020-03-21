@@ -16,14 +16,14 @@
         android:textColor="#0E0A0A"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editNome"
+        app:layout_constraintBottom_toTopOf="@+id/editNomeCompleto"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.529"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/editNome"
+        android:id="@+id/editNomeCompleto"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -31,15 +31,15 @@
         android:layout_marginBottom="24dp"
         android:drawableLeft="@drawable/ic_person_black_24dp"
         android:ems="10"
-        android:hint="Nome"
+        android:hint="Nome Completo"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/editSobrenome"
+        app:layout_constraintBottom_toTopOf="@+id/editCPF"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
-        android:id="@+id/editSobrenome"
+        android:id="@+id/editCPF"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
@@ -47,7 +47,7 @@
         android:layout_marginBottom="24dp"
         android:drawableLeft="@drawable/ic_person_black_24dp"
         android:ems="10"
-        android:hint="Sobrenome"
+        android:hint="CPF"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/editEmail"
         app:layout_constraintEnd_toEndOf="parent"
