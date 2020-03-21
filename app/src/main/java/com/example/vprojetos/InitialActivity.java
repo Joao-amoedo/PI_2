@@ -13,7 +13,6 @@ public class InitialActivity extends AppCompatActivity {
 
     Button buttonCadastrar;
     Button buttonLogin;
-    TextView esqueciMinhaSenha;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,6 @@ public class InitialActivity extends AppCompatActivity {
 
         Button buttonCadastrar = findViewById(R.id.buttoncadastroid);
         Button buttonLogin = findViewById(R.id.buttonloginid);
-        TextView esqueciMinhaSenha = findViewById(R.id.esquecisenhaid);
 
         buttonCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,14 +37,6 @@ public class InitialActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(InitialActivity.this, LoginActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        esqueciMinhaSenha.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(InitialActivity.this, RecuperarSenhaActivity.class);
                 startActivity(intent);
             }
         });
