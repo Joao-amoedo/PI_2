@@ -12,20 +12,20 @@ public class Usuario {
 
     }
 
-    public String getNome() {
+    public String getNomeCompleto() {
         return nomeCompleto;
     }
 
-    public void setNome(String nome) {
-        this.nomeCompleto = nome;
+    public void setNomeCompleto(String nomeCompleto) {
+        this.nomeCompleto = nomeCompleto;
     }
 
-    public String getSobrenome() {
+    public String getCPF() {
         return CPF;
     }
 
-    public void setSobrenome(String sobrenome) {
-        this.CPF = sobrenome;
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 
     public String getEmail() {
