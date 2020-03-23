@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if ( task.isSuccessful() ){
 
-                    Toast.makeText(LoginActivity.this, "Sucesso", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
                     abrirTelaPrincipal();
                 }else {
 
