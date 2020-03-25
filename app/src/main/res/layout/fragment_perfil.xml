@@ -8,29 +8,20 @@
     tools:context=".Activity.ui.perfil.PerfilFragment" >
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonEditarPerfil"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="32dp"
-        android:text="Atualizar Dados"
+        android:layout_marginBottom="48dp"
+        android:background="@android:color/holo_red_dark"
+        android:text="Editar Perfil"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
-        android:src="@drawable/ic_splash"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.142"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
 
     <EditText
         android:id="@+id/editText"
@@ -86,7 +77,7 @@
         android:ems="10"
         android:hint="(xx) xxxxx-xxxx"
         android:inputType="number"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@+id/buttonEditarPerfil"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -148,4 +139,16 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/editText4"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imagePerfil"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/avatar"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.182"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.859" />
 </androidx.constraintlayout.widget.ConstraintLayout>

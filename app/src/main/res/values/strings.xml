@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">VProjetos</string>
+    <string name="app_name">HelpPro</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -9,8 +9,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_informacao">Informação</string>
+    <string name="menu_projetos">Projetos</string>
     <string name="menu_perfil">Perfil</string>
-    <string name="menu_config">Configurações</string>
     <string name="menu_sair">Sair</string>
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
     tools:context=".Activity.LoginActivity">
 
     <EditText
@@ -44,7 +45,10 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="@android:color/holo_red_dark"
         android:text="Entrar"
+        android:textColor="@android:color/background_light"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -66,13 +70,13 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="205dp"
-        android:layout_height="186dp"
+        android:layout_width="280dp"
+        android:layout_height="297dp"
         app:layout_constraintBottom_toTopOf="@+id/textcadastroid2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_splash" />
+        app:srcCompat="@drawable/help" />
 
     <TextView
         android:id="@+id/textView"
@@ -82,7 +86,7 @@
         android:layout_marginEnd="32dp"
         android:layout_marginBottom="40dp"
         android:text="Esqueci minha senha"
-        android:textColor="#0E0C0C"
+        android:textColor="@color/common_google_signin_btn_text_dark_default"
         android:textColorHint="#FFFFFF"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -40,4 +40,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:17.2.3'
     implementation 'androidx.navigation:navigation-fragment:2.2.1'
     implementation 'androidx.navigation:navigation-ui:2.2.1'
+
+    /**Dependências circle image view**/
+    implementation "de.hdodenhof:circleimageview:2.2.0"
 }

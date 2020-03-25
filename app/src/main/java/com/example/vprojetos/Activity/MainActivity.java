@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Define configurações do NavigationDrawer
         mAppBarConfiguration = new AppBarConfiguration.Builder(R.id.nav_informacao,
-                R.id.nav_perfil, R.id.nav_config, R.id.nav_sair)
+                R.id.nav_projetos, R.id.nav_perfil, R.id.nav_sair)
                 .setDrawerLayout(drawer)
                 .build();
         //Configura a area que irá carregar os fragments

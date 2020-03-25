@@ -3,36 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_perfil">
+    app:startDestination="@id/nav_projetos">
 
     <fragment
         android:id="@+id/nav_informacao"
         android:name="com.example.vprojetos.Activity.ui.informacao.InformacaoFragment"
         android:label="@string/menu_informacao"
-        tools:layout="@layout/fragment_informacao">
+        tools:layout="@layout/fragment_informacao" >
         <action
-            android:id="@+id/action_nav_informacao_to_nav_perfil"
-            app:destination="@id/nav_perfil" />
+            android:id="@+id/action_nav_informacao_to_nav_sair"
+            app:destination="@id/nav_sair" />
     </fragment>
-
     <fragment
         android:id="@+id/nav_perfil"
         android:name="com.example.vprojetos.Activity.ui.perfil.PerfilFragment"
-        android:label="@string/menu_perfil"
+        android:label="@string/menu_informacao"
         tools:layout="@layout/fragment_perfil">
         <action
-            android:id="@+id/action_nav_perfil_to_nav_config"
-            app:destination="@id/nav_config" />
+            android:id="@+id/action_nav_perfil_to_nav_informacao"
+            app:destination="@id/nav_informacao" />
     </fragment>
-
     <fragment
-        android:id="@+id/nav_config"
-        android:name="com.example.vprojetos.Activity.ui.configuracoes.ConfiguracoesFragment"
-        android:label="@string/menu_config"
-        tools:layout="@layout/fragment_configuracoes">
+        android:id="@+id/nav_projetos"
+        android:name="com.example.vprojetos.Activity.ui.projetos.ProjetosFragment"
+        android:label="@string/menu_projetos"
+        tools:layout="@layout/fragment_projetos">
         <action
-            android:id="@+id/action_nav_config_to_nav_sair"
-            app:destination="@id/nav_sair" />
+            android:id="@+id/action_nav_config_to_nav_perfil"
+            app:destination="@id/nav_perfil" />
     </fragment>
 
     <fragment
