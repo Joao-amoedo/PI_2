@@ -12,16 +12,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vprojetos.R;
+import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-
-import com.example.vprojetos.config.ConfiguracaoFirebase;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -29,6 +26,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Button botaoCadastrar;
     private FirebaseAuth autenticacao;
     private Usuario usuario;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,53 +46,62 @@ public class CadastroActivity extends AppCompatActivity {
         botaoCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String textoNomeCompleto = campoNomeCompleto.getText().toString();
-                String textoCPF = campoCPF.getText().toString();
-                String textoEmail = campoEmail.getText().toString();
-                String textoSenha = campoSenha.getText().toString();
-                String textoConfirmarSenha = campoConfirmarSenha.getText().toString();
+                String nome = campoNomeCompleto.getText().toString();
+                String cpf = campoCPF.getText().toString();
+                String email = campoEmail.getText().toString();
+                String senha = campoSenha.getText().toString();
+                String confirmarSenha = campoConfirmarSenha.getText().toString();
 
                 //Validar se os campos foram preenchidos
-                if( !textoNomeCompleto.isEmpty() ){
-                    if( !textoCPF.isEmpty() ){
-                        if( !textoEmail.isEmpty()){
-                            if( !textoSenha.isEmpty()){
-                                if( !textoConfirmarSenha.isEmpty()){
+                if (!nome.isEmpty() & !cpf.isEmpty() &
+                    !email.isEmpty() & !senha.isEmpty() & !confirmarSenha.isEmpty()){
+                    if(senha.equals(confirmarSenha)){
+                        cadastrarUsuario(email, senha);
+                    }else
+                        alert("As senhas não são iguais");
+                }else
+                    alert("Preencha todos os campos");
 
-                                    usuario = new Usuario();
-                                    usuario.getNomeCompleto();
-                                    usuario.setEmail(textoEmail);
-                                    usuario.setSenha(textoSenha);
-                                    usuario.setConfirmarSenha(textoConfirmarSenha);
-                                    cadastrarUsuario();
-
-                                }else{
-                                    Toast.makeText(CadastroActivity.this, "Confirme a Senha!", Toast.LENGTH_SHORT).show();
-                                }
-                            }else{
-                                Toast.makeText(CadastroActivity.this, "Digite a Senha!", Toast.LENGTH_SHORT).show();
-                            }
-                        }else{
-                            Toast.makeText(CadastroActivity.this, "Preencha o Email!", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                            Toast.makeText(CadastroActivity.this, "Preencha o CPF!", Toast.LENGTH_SHORT).show();
-                    }
-                }else {
-                    Toast.makeText(CadastroActivity.this, "Preencha o Nome!", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
 
-    public void cadastrarUsuario(){
+
+
+    public void cadastrarUsuario(String email, String senha){
+
+        autenticacao = Conexao.getFirebaseAuth();
+        autenticacao.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        alert("Usuario Cadastrado com sucesso");
+                        abrirTelaLogin();
+                    } else {
+                        if(task.getException().getClass() == FirebaseAuthUserCollisionException.class){
+                            alert("Email já cadastrado");
+                        }else{
+                            alert("Não foi possível cadastrar");
+                        }
+
+                    }
+
+                }
+
+            });
+
+
+
+
+/*
         autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        autenticacao.createUserWithEmailAndPassword(usuario.getEmail(), usuario.getSenha()
+        mensagem("Cheguei aq   "+  autenticacao.toString());
+        autenticacao.createUserWithEmailAndPassword(usuario.getEmail(), senha
         ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    Toast.makeText(CadastroActivity.this, "Usuário Cadastrado!", Toast.LENGTH_SHORT).show();
+                    mensagem("Usuário Cadastrado com Sucesso");
                     abrirTelaLogin();
 
                 }else{
@@ -112,10 +119,14 @@ public class CadastroActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(CadastroActivity.this,excecao, Toast.LENGTH_SHORT).show();
+                    mensagem(excecao);
                 }
             }
-        });
+        });*/
+    }
+
+    public void alert(String mensagem){
+        Toast.makeText(CadastroActivity.this, mensagem, Toast.LENGTH_SHORT).show();
     }
 
     public void abrirTelaLogin(){

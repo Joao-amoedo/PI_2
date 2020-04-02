@@ -1,31 +1,43 @@
 package com.example.vprojetos.model;
 
-public class Usuario {
+import java.util.ArrayList;
+import java.util.List;
 
-    private String nomeCompleto;
-    private String CPF;
+public class Usuario {
+    public static Usuario usuario = new Usuario();
+    private String nome;
+    private String cpf;
     private String email;
-    private String senha;
-    private String confirmarSenha;
+    private Double dinheiroDoado;
+    private String id;
+    private List<Projetos> projetosFavoritos = new ArrayList<Projetos>();
+
+
 
     public Usuario() {
 
     }
 
-    public String getNomeCompleto() {
-        return nomeCompleto;
+    public Usuario(String nome, String cpf, String email) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.email=email;
     }
 
-    public void setNomeCompleto(String nomeCompleto) {
-        this.nomeCompleto = nomeCompleto;
+    public String getNome() {
+        return nome;
     }
 
-    public String getCPF() {
-        return CPF;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public void setCPF(String CPF) {
-        this.CPF = CPF;
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getEmail() {
@@ -36,19 +48,5 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getSenha() {
-        return senha;
-    }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public String getConfirmarSenha() {
-        return confirmarSenha;
-    }
-
-    public void setConfirmarSenha(String confirmarSenha) {
-        this.confirmarSenha = confirmarSenha;
-    }
 }

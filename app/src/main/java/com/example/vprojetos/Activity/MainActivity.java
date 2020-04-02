@@ -1,6 +1,7 @@
 package com.example.vprojetos.Activity;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -44,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         //Configura a navegação para NavigationView
         NavigationUI.setupWithNavController(menuNavegacao, navController);
+
+        Toast.makeText(this, "ola mundo", Toast.LENGTH_SHORT).show();
     }
     @Override
     //Método que habilita a opção de navegação

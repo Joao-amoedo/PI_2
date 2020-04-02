@@ -14,14 +14,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.vprojetos.R;
-import com.example.vprojetos.config.ConfiguracaoFirebase;
+import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
+import com.example.vprojetos.model.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+
+
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -49,38 +52,31 @@ public class LoginActivity extends AppCompatActivity {
                 String textoEmail = campoEmail.getText().toString();
                 String textoSenha = campoSenha.getText().toString();
 
-
-                if( !textoEmail.isEmpty()){
-                    if( !textoSenha.isEmpty()){
-                        usuario = new Usuario();
-                        usuario.setEmail(textoEmail);
-                        usuario.setSenha(textoSenha);
-                        validarLogin();
-
-                    }else{
-                        Toast.makeText(LoginActivity.this, "Digite a Senha!", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(LoginActivity.this, "Preencha o Email!", Toast.LENGTH_SHORT).show();
+                if (!textoEmail.isEmpty() & !textoSenha.isEmpty()) {
+                    validarLogin(textoEmail, textoSenha);
+                } else {
+                    mensagem("Preencha os dados");
                 }
             }
         });
 
     }
 
-    public void validarLogin(){
+    private void mensagem(String s) {
+        Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
+    }
 
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        autenticacao.signInWithEmailAndPassword(
-                usuario.getEmail(),
-                usuario.getSenha()
+    public void validarLogin(String email, String senha){
+
+        autenticacao = Conexao.getFirebaseAuth();
+        autenticacao.signInWithEmailAndPassword(email, senha
         ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if ( task.isSuccessful() ){
 
-                    Toast.makeText(LoginActivity.this, "Bem-vindo", Toast.LENGTH_SHORT).show();
+                    mensagem("Bem-vindo");
                     abrirTelaPrincipal();
                 }else {
 
@@ -96,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Toast.makeText(LoginActivity.this, excecao,Toast.LENGTH_SHORT).show();
+                    mensagem(excecao);
                 }
             }
         });
