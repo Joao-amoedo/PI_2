@@ -1,15 +1,14 @@
 package com.example.vprojetos.model;
 
 import com.example.vprojetos.config.Conexao;
+import com.google.firebase.database.DatabaseReference;
 
 public class UsuarioDAO {
     public static Usuario usuario = Usuario.usuario;
 
     //Método estático que atualiza o email do usuário
     public static void updateEmail(Usuario usuario){
-        Conexao
-                .getDatabase()
-                .child(getUid())
+       getTree()
                 .child("email")
                 .setValue(usuario.getEmail());
     }
@@ -21,9 +20,7 @@ public class UsuarioDAO {
 
     //Método estático que atualiza o nome do usuário
     public static void updateNome(Usuario usuario){
-        Conexao
-                .getDatabase()
-                .child(getUid())
+        getTree()
                 .child("nome")
                 .setValue(usuario.getNome());
     }
@@ -35,9 +32,7 @@ public class UsuarioDAO {
 
     //Método estático que atualiza o CPF do usuário
     public static void updateCPF(Usuario usuario){
-        Conexao
-                .getDatabase()
-                .child(getUid())
+        getTree()
                 .child("cpf")
                 .setValue(usuario.getCpf());
     }
@@ -49,7 +44,7 @@ public class UsuarioDAO {
 
     //Método estático com sobrecarga para salvar o usuário com o toMap
     public static void saveUsuario(Usuario usuario){
-        Conexao.getDatabase().child(getUid()).setValue(usuario.toMap());
+        getTree().setValue(usuario.toMap());
     }
 
     //Método estático com sobrecarga para salvar o usuário com o toMap
@@ -63,5 +58,13 @@ public class UsuarioDAO {
                 .getFirebaseAuth()
                 .getCurrentUser()
                 .getUid();
+    }
+
+    //Método estático que retorna o Database Reference de usuários com uid
+    private static DatabaseReference getTree(){
+        return   Conexao
+                .getDatabase()
+                .child("usuarios")
+                .child(getUid());
     }
 }

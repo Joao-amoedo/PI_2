@@ -11,7 +11,10 @@ public class Usuario {
     private String email;
     private Double dinheiroDoado;
     private String id;
-    private List<Projetos> projetosFavoritos = new ArrayList<Projetos>();
+    private HashMap<String, Double> doacoes = new HashMap<String, Double>();
+    private HashMap<String, Integer> notas = new HashMap<String, Integer>();
+
+
     private HashMap<String, Object> map = new HashMap<String, Object>();
 
 
@@ -51,9 +54,13 @@ public class Usuario {
 
 
     public HashMap<String, Object> toMap() {
-        map.put("Nome", nome);
+        map.put("nome", nome);
         map.put("cpf", cpf);
         map.put("email",email);
+        map.put("doacoes",doacoes);
+        map.put("notas", notas);
+
+
         return map;
 
     }
