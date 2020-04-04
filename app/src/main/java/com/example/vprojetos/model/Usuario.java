@@ -9,8 +9,6 @@ public class Usuario {
     private String nome;
     private String cpf;
     private String email;
-    private Double dinheiroDoado;
-    private String id;
     private HashMap<String, Double> doacoes = new HashMap<String, Double>();
     private HashMap<String, Integer> notas = new HashMap<String, Integer>();
 
