@@ -23,7 +23,14 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -33,6 +40,8 @@ public class LoginActivity extends AppCompatActivity {
     private Usuario usuario;
     private FirebaseAuth autenticacao;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,10 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //Esconde a Action Bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        campoEmail = findViewById(R.id.editEmail);
-        campoSenha = findViewById(R.id.editSenha);
-        botaoEntrar = findViewById(R.id.buttonEntrar);
+        inicializa();
 
+
+        listenerButton();
+
+    }
+
+    private void listenerButton() {
         botaoEntrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,6 +72,15 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+
+    }
+
+    private void inicializa() {
+        campoEmail = findViewById(R.id.editEmail);
+        campoSenha = findViewById(R.id.editSenha);
+        botaoEntrar = findViewById(R.id.buttonEntrar);
 
     }
 

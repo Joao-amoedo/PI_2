@@ -1,6 +1,7 @@
 package com.example.vprojetos.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Usuario {
@@ -11,7 +12,7 @@ public class Usuario {
     private Double dinheiroDoado;
     private String id;
     private List<Projetos> projetosFavoritos = new ArrayList<Projetos>();
-
+    private HashMap<String, Object> map = new HashMap<String, Object>();
 
 
     public Usuario() {
@@ -49,4 +50,11 @@ public class Usuario {
     }
 
 
+    public HashMap<String, Object> toMap() {
+        map.put("Nome", nome);
+        map.put("cpf", cpf);
+        map.put("email",email);
+        return map;
+
+    }
 }

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
+import com.example.vprojetos.model.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -36,12 +37,7 @@ public class CadastroActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //Esconde a Action Bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        campoNomeCompleto = findViewById(R.id.editNomeCompleto);
-        campoCPF = findViewById(R.id.editCPF);
-        campoEmail = findViewById(R.id.editEmail);
-        campoSenha = findViewById(R.id.editSenha);
-        campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
-        botaoCadastrar = findViewById(R.id.buttonCadastrar);
+        inicializa();
 
         botaoCadastrar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,9 +62,17 @@ public class CadastroActivity extends AppCompatActivity {
         });
     }
 
+    private void inicializa() {
+        campoNomeCompleto = findViewById(R.id.editNomeCompleto);
+        campoCPF = findViewById(R.id.editCPF);
+        campoEmail = findViewById(R.id.editEmail);
+        campoSenha = findViewById(R.id.editSenha);
+        campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
+        botaoCadastrar = findViewById(R.id.buttonCadastrar);
+    }
 
 
-    public void cadastrarUsuario(String email, String senha){
+    public void cadastrarUsuario(final String email, String senha){
 
         autenticacao = Conexao.getFirebaseAuth();
         autenticacao.createUserWithEmailAndPassword(email, senha).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -76,6 +80,9 @@ public class CadastroActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
                         alert("Usuario Cadastrado com sucesso");
+                        String uid = autenticacao.getCurrentUser().getUid();
+                        salvaUsuario(uid);
+                        alert("Usuario inserido com sucesso");
                         abrirTelaLogin();
                     } else {
                         if(task.getException().getClass() == FirebaseAuthUserCollisionException.class){
@@ -89,41 +96,16 @@ public class CadastroActivity extends AppCompatActivity {
                 }
 
             });
-
-
-
-
-/*
-        autenticacao = ConfiguracaoFirebase.getFirebaseAutenticacao();
-        mensagem("Cheguei aq   "+  autenticacao.toString());
-        autenticacao.createUserWithEmailAndPassword(usuario.getEmail(), senha
-        ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    mensagem("Usuário Cadastrado com Sucesso");
-                    abrirTelaLogin();
-
-                }else{
-                    String excecao = " ";
-                    try {
-                        throw task.getException();
-                    }catch (FirebaseAuthWeakPasswordException e){
-                        excecao = "Digite uma senha mais forte!";
-                    }catch (FirebaseAuthInvalidCredentialsException e){
-                        excecao = "Por favor, digite uma e-mail valido!";
-                    }catch (FirebaseAuthUserCollisionException e){
-                        excecao = "Esta conta já foi cadastrada";
-                    }catch (Exception e){
-                        excecao = "Erro ao cadastrar usuário: " + e.getMessage();
-                        e.printStackTrace();
-                    }
-
-                    mensagem(excecao);
-                }
-            }
-        });*/
     }
+
+    private void salvaUsuario(String uid) {
+        Usuario usuario = Usuario.usuario;
+        usuario.setEmail(campoEmail.getText().toString());
+        usuario.setCpf(campoCPF.getText().toString());
+        usuario.setNome(campoNomeCompleto.getText().toString());
+        UsuarioDAO.saveUsuario();
+    }
+
 
     public void alert(String mensagem){
         Toast.makeText(CadastroActivity.this, mensagem, Toast.LENGTH_SHORT).show();
