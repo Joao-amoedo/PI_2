@@ -1,7 +1,17 @@
 package com.example.vprojetos.model;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
 import com.example.vprojetos.config.Conexao;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class UsuarioDAO {
     public static Usuario usuario = Usuario.usuario;
@@ -67,4 +77,7 @@ public class UsuarioDAO {
                 .child("usuarios")
                 .child(getUid());
     }
+
+
+
 }

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -16,22 +17,17 @@ import android.widget.Toast;
 import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
-import com.example.vprojetos.model.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -39,7 +35,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button botaoEntrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
-
 
 
     @Override
@@ -74,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
     }
 
     private void inicializa() {
@@ -88,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(LoginActivity.this, s, Toast.LENGTH_SHORT).show();
     }
 
-    public void validarLogin(String email, String senha){
+    public void validarLogin(String email, String senha) {
 
         autenticacao = Conexao.getFirebaseAuth();
         autenticacao.signInWithEmailAndPassword(email, senha
@@ -96,21 +90,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-                if ( task.isSuccessful() ){
+                if (task.isSuccessful()) {
 
-                    mensagem("Bem-vindo");
-                    abrirTelaPrincipal();
-                }else {
+
+                    getUsuarioFirebase();
+
+
+                } else {
 
                     String excecao = "";
                     try {
                         throw task.getException();
-                    }catch ( FirebaseAuthInvalidUserException e ) {
+                    } catch (FirebaseAuthInvalidUserException e) {
                         excecao = "Usuário não está cadastrado.";
-                    }catch ( FirebaseAuthInvalidCredentialsException e ){
+                    } catch (FirebaseAuthInvalidCredentialsException e) {
                         excecao = "E-mail e senha não correspondem a um usuário cadastrado";
-                    }catch (Exception e){
-                        excecao = "Erro ao cadastrar usuário: "  + e.getMessage();
+                    } catch (Exception e) {
+                        excecao = "Erro ao cadastrar usuário: " + e.getMessage();
                         e.printStackTrace();
                     }
 
@@ -121,9 +117,40 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    public void abrirTelaPrincipal(){
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+    private void getUsuarioFirebase() {
+        String uid = Conexao.getFirebaseAuth().getCurrentUser().getUid();
+
+        Conexao.getDatabase().child("usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Usuario usuario = Usuario.usuario;
+                Log.i("uid", "Cheguei aq");
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                String email = (String) value.get("email");
+                String nome = (String) value.get("nome");
+                String cpf = (String) value.get("cpf");
+
+
+                HashMap<String, Double> doacoes = (HashMap<String, Double>) value.get("doacoes");
+                HashMap<String, Integer> notas = (HashMap<String, Integer>) value.get("notas");
+                HashMap<String, String> comentarios = (HashMap<String, String>) value.get("comentarios");
+
+                Usuario.usuario = new Usuario(nome, cpf, email, doacoes, notas, comentarios);
+                startActivity(intent);
+                finish();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.i("uid", "deu ruim");
+            }
+        });
+
     }
+
 
 }
