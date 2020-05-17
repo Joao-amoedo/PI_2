@@ -54,7 +54,7 @@ public class UsuarioDAO {
 
     //Método estático com sobrecarga para salvar o usuário com o toMap
     public static void saveUsuario(Usuario usuario){
-        getTree().setValue(usuario.toMap());
+        getTree().setValue(usuario);
     }
 
     //Método estático com sobrecarga para salvar o usuário com o toMap

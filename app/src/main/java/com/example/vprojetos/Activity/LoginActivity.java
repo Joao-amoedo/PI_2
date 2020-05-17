@@ -128,17 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-
-                String email = (String) value.get("email");
-                String nome = (String) value.get("nome");
-                String cpf = (String) value.get("cpf");
-
-
-                HashMap<String, Double> doacoes = (HashMap<String, Double>) value.get("doacoes");
-                HashMap<String, Integer> notas = (HashMap<String, Integer>) value.get("notas");
-                HashMap<String, String> comentarios = (HashMap<String, String>) value.get("comentarios");
-
-                Usuario.usuario = new Usuario(nome, cpf, email, doacoes, notas, comentarios);
+                Usuario.usuario = new Usuario(value);
                 startActivity(intent);
                 finish();
 

@@ -13,12 +13,13 @@ public class Usuario {
     private HashMap<String, Double> doacoes = new HashMap<String, Double>();
     private HashMap<String, Integer> notas = new HashMap<String, Integer>();
     private HashMap<String, String> comentario = new HashMap<String, String>();
-
+    private List<String> projetosCriados = new ArrayList<>();
 
     private HashMap<String, Object> map = new HashMap<String, Object>();
 
 
-    public Usuario() {
+
+    public Usuario(){
 
     }
 
@@ -28,17 +29,31 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(String nome, String cpf,
-                   String email,
-                   HashMap<String, Double> doacoes,
-                   HashMap<String, Integer> notas,
-                   HashMap<String, String> comentario) {
-        this.nome = nome;
-        this.cpf = cpf;
-        this.email = email;
-        this.doacoes = doacoes;
-        this.notas = notas;
-        this.comentario = comentario;
+    public Usuario(HashMap<String, Object> map){
+        // Construtor do banco de dados
+        this.nome = (String) map.get("nome");
+        this.cpf = (String) map.get("cpf");
+        this.email = (String) map.get("email");
+
+        if (map.containsKey("doacoes"))
+            this.doacoes = (HashMap<String, Double>) map.get("doacoes");
+        if(map.containsKey("notas"))
+            this.notas = (HashMap<String, Integer>) map.get("notas");
+        if(map.containsKey("comentarios"))
+            this.comentario = (HashMap<String, String>) map.get("comentario");
+        if(map.containsKey("projetosCriados"))
+            this.projetosCriados = (List<String>) map.get("projetosCriados");
+
+
+
+    }
+
+    public List<String> getProjetosCriados() {
+        return projetosCriados;
+    }
+
+    public void setProjetosCriados(List<String> projetosCriados) {
+        this.projetosCriados = projetosCriados;
     }
 
     public String getNome() {
@@ -105,14 +120,10 @@ public class Usuario {
         this.map = map;
     }
 
-    public HashMap<String, Object> toMap() {
-        map.put("nome", nome);
-        map.put("cpf", cpf);
-        map.put("email", email);
-        map.put("doacoes", doacoes);
-        map.put("notas", notas);
-        map.put("comentarios", comentario);
-        return map;
+    public void addProjetoCriado(String nome) {
+        if(this.projetosCriados != null){
+            projetosCriados.add(nome);
 
+        }
     }
 }
