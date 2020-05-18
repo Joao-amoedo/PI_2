@@ -27,7 +27,6 @@ import android.net.Uri;
 import java.util.HashMap;
 
 public class ProjetoDAO {
-
     private final boolean projetoExistente = false;
     private StorageReference storageReference;
     public static void saveProjeto(final Projeto projeto, final Activity activity, Uri fileImageCapaPath){

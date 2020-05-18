@@ -112,6 +112,7 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
 
                 ProjetoDAO.saveProjeto(projeto, this, fileImageCapa);
                 mensagem("Cadastrado com sucesso");
+                finish();
             } else {
                 //Algum campo é nulo
                 mensagem("Todos os campos são obrigatórios");

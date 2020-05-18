@@ -1,8 +1,17 @@
 package com.example.vprojetos.model;
 
+import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.example.vprojetos.Activity.LoginActivity;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class Usuario {
     public static Usuario usuario = new Usuario();
@@ -18,8 +27,7 @@ public class Usuario {
     private HashMap<String, Object> map = new HashMap<String, Object>();
 
 
-
-    public Usuario(){
+    public Usuario() {
 
     }
 
@@ -29,21 +37,37 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(HashMap<String, Object> map){
+    public Usuario(HashMap<String, Object> map, Activity activity) {
         // Construtor do banco de dados
         this.nome = (String) map.get("nome");
         this.cpf = (String) map.get("cpf");
         this.email = (String) map.get("email");
-
         if (map.containsKey("doacoes"))
             this.doacoes = (HashMap<String, Double>) map.get("doacoes");
-        if(map.containsKey("notas"))
+        if (map.containsKey("notas"))
             this.notas = (HashMap<String, Integer>) map.get("notas");
-        if(map.containsKey("comentarios"))
+        if (map.containsKey("comentarios"))
             this.comentario = (HashMap<String, String>) map.get("comentario");
-        if(map.containsKey("projetosCriados"))
-            this.projetosCriados = (List<String>) map.get("projetosCriados");
+        
 
+
+
+        //TODO arrumar essa bagunça
+        //Pegando projetos criados, ele pode vir como array
+        // list ou hash map, dependendo se um projeto foi deletado ou não
+        if(map.containsKey("projetosCriados")){
+            if(map.get("projetosCriados").getClass() == ArrayList.class){
+                this.projetosCriados = (ArrayList) map.get("projetosCriados");
+            }else{
+                HashMap<String, String> projetosCriadosHashMap = (HashMap<String, String>) map.get("projetosCriados");
+                ArrayList<String> projetosCriados = new ArrayList<>();
+                for (String nomeProjeto : projetosCriadosHashMap.values()) {
+                    projetosCriados.add(nomeProjeto);
+                }
+                this.projetosCriados = projetosCriados;
+
+            }
+        }
 
 
     }
@@ -121,7 +145,7 @@ public class Usuario {
     }
 
     public void addProjetoCriado(String nome) {
-        if(this.projetosCriados != null){
+        if (this.projetosCriados != null) {
             projetosCriados.add(nome);
 
         }

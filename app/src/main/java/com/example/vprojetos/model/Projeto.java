@@ -4,17 +4,19 @@ import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.enums.Categoria;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
-public class Projeto {
+public class Projeto implements Serializable {
 
 
     private String nome; // nome do projeto
+    private String nomeAutor; // nome do Autor do projeto
     private double dinheiroArrecadado; // Dinherio arrecadado até agora
     private double dinheiroAlvo; // Dinheiro que precisa ser arrecadado
-    private String autor; // Autor do projeto
+    private String UidAutor; // Autor do projeto
     private long dataInicio; // Data de inicio do projeto
     private long dataFim; // Data de fim do projeto
     private Categoria categoria; // Categoria do projeto
@@ -30,16 +32,23 @@ public class Projeto {
 
     public Projeto(HashMap<String, Object> map){
         // Construtor do banco de dados
+
         this.nome = (String) map.get("nome");
-        this.dinheiroArrecadado = (Double) map.get("dinherioArrecadado");
-        this.dinheiroAlvo = (Double) map.get("dinheiroAlvo");
-        this.autor = (String) map.get("autor");
-        this.dataInicio = (long) map.get("dataInicio");
-        this.dataFim = (long) map.get("dataFim");
+        this.UidAutor = (String) map.get("uidAutor");
+        this.nomeAutor = (String) map.get("nomeAutor");
+
+        this.dinheiroArrecadado = Double.parseDouble( map.get("dinheiroArrecadado").toString() );
+        this.dinheiroAlvo = Double.parseDouble(map.get("dinheiroAlvo").toString());
+
+        this.dataInicio = Long.parseLong(map.get("dataInicio").toString());
+        this.dataFim = Long.parseLong(map.get("dataFim").toString());
+
         this.categoria = Categoria.valueOf( (String) map.get("categoria")  );
         this.descricaoDoProjeto = (String) map.get("descricaoDoProjeto");
-        this.projetoConcluido = (boolean) map.get("projetoConcluido");
-        this.dinheiroArrecadadoComSucesso = (boolean) map.get("dinheiroArrecadadoComSucesso");
+        this.projetoConcluido = Boolean.parseBoolean(map.get("projetoConcluido").toString());
+
+        this.dinheiroArrecadadoComSucesso = Boolean.parseBoolean(map.get("dinheiroArrecadadoComSucesso").toString());
+
 
         if(map.containsKey("usuariosDoacoes"))
             this.usuariosDoacoes = (HashMap<String, Double>) map.get("usuariosDoacoes");
@@ -48,8 +57,16 @@ public class Projeto {
         if(map.containsKey("comentarios"))
             this.comentarios = (HashMap<String, String>) map.get("comentarios");
 
+
     }
 
+    public String getNomeAutor() {
+        return nomeAutor;
+    }
+
+    public void setNomeAutor(String nomeAutor) {
+        this.nomeAutor = nomeAutor;
+    }
 
     public Projeto(String nome, Categoria categoria, double dinheiroAlvo, String descricaoDoProjeto) {
         //CONSTRUTOR PROJETO NOVO
@@ -62,7 +79,8 @@ public class Projeto {
         this.dinheiroAlvo = dinheiroAlvo;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
-        this.autor = Conexao.getFirebaseAuth().getUid();
+        this.UidAutor = Conexao.getFirebaseAuth().getUid();
+        this.nomeAutor = Usuario.usuario.getNome();
         this.categoria = categoria;
         this.descricaoDoProjeto = descricaoDoProjeto;
 
@@ -86,12 +104,12 @@ public class Projeto {
         this.descricaoDoProjeto = descricaoDoProjeto;
     }
 
-    public String getAutor() {
-        return autor;
+    public String getUidAutor() {
+        return UidAutor;
     }
 
-    public void setAutor(String autor) {
-        this.autor = autor;
+    public void setUidAutor(String uidAutor) {
+        this.UidAutor = uidAutor;
     }
 
     public Categoria getCategoria() {
@@ -214,21 +232,4 @@ public class Projeto {
 
     }
 
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> map = new HashMap<>();
-
-        map.put("nome", nome);
-        map.put("dinherioArrecadado", dinheiroArrecadado);
-        map.put("dinheiroAlvo", dinheiroAlvo);
-        map.put("dinheiroArrecadadoComSucesso", dinheiroArrecadadoComSucesso);
-        map.put("comentarios", comentarios);
-        map.put("dataFim", dataFim);
-        map.put("dataInicio", dataInicio);
-        map.put("notas", notas);
-        map.put("projetoConcluido", projetoConcluido);
-        map.put("usuarios", usuariosDoacoes);
-        map.put("autor", autor);
-
-        return map;
-    }
 }

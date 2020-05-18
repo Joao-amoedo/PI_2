@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".Activity.PaginaProjetoActivity">
+
+    <ImageView
+        android:id="@+id/idImageViewPaginaProjetoActivityImagemCapa"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:adjustViewBounds="true"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_gravity="center"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.026"
+        app:srcCompat="@drawable/help" />
+
+    <TextView
+        android:id="@+id/idTextViewPaginaProjetoActivityTituloProjeto"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:text="Titulo do projeto"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/idConstraintLayoutPaginaProjetoActivityLayoutAutor"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="onClick">
+
+        <TextView
+            android:id="@+id/idTextViewPaginaProjetoActivityCriadoPor"
+            android:layout_width="82dp"
+            android:layout_height="16dp"
+            android:text="Criado por"
+            android:textAlignment="viewStart"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.053"
+            app:layout_constraintStart_toEndOf="@+id/idImageViewPaginaProjetoActivityImagemAutor"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.241" />
+
+        <ImageView
+            android:id="@+id/idImageViewPaginaProjetoActivityImagemAutor"
+            android:layout_width="56dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/avatar"/>
+
+        <TextView
+            android:id="@+id/idTextViewPaginaProjetoActivityNomeAutor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Autor"
+            android:textColor="#000000"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.044"
+            app:layout_constraintStart_toEndOf="@+id/idImageViewPaginaProjetoActivityImagemAutor"
+            app:layout_constraintTop_toBottomOf="@+id/idTextViewPaginaProjetoActivityCriadoPor"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/idLinearLayoutPaginaProjetoActivityLayoutDescricaoProjeto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackground"
+        android:clickable="true"
+        android:onClick="onClick"
+        >
+
+        <TextView
+            android:id="@+id/idTextViewPaginaProjetoActivityDescricaoProjeto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Descrição do Projeto"/>
+
+        <TextView
+            android:id="@+id/idTextViewPaginaProjetoActivityLerMaisSobreProjeto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Ler mais sobre esse projeto →"
+            android:textColor="#131313" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+
+        >
+
+    <ImageView
+        android:id="@+id/idImageViewPaginaProjetoActivityIconeCategoria"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@android:drawable/ic_menu_myplaces" />
+
+
+        <TextView
+        android:id="@+id/idTextViewPaginaProjetoActivityNomeCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Cateogira"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.105"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.521" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/idTextViewPaginaProjetoActivityLinha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:fontFamily="monospace"
+        android:text="______________________________________________"
+        android:textColor="#2F9314"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.615"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.575" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.45"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.793"
+        tools:ignore="MissingConstraints">
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/idTextViewPaginaProjetoActivityValorArrecadado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="R$ arrecadado"
+                android:textAlignment="textStart"></TextView>
+
+            <TextView
+                android:id="@+id/idTextViewPaginaProjetoActivityMetaValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Meta planejado"
+                android:textAlignment="textStart"></TextView>
+
+            "
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/idTextViewPaginaProjetoActivityQuantidadeDoadoresDescrição"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/idTextViewPaginaProjetoActivityQuantidadeDoadoresDescriçãoEstatico"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Doadores"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight=".33"
+            android:orientation="vertical">
+
+            <TextView
+
+                android:id="@+id/idTextViewPaginaProjetoActivityDiasRestantes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="0"
+                android:textAlignment="center" />
+
+            <TextView
+
+                android:id="@+id/idTextViewPaginaProjetoActivityQuantidadeDiasPassadosDescricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Dias restantes"
+                android:textAlignment="center" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:fontFamily="monospace"
+            android:text="______________________________________________"
+            android:textColor="#808080"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.615"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.575" />
+
+        <LinearLayout
+            android:id="@+id/idLinearLayoutPaginaProjetoActivityLayoutComentarios"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="onClick"
+            android:clickable="true"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="horizontal"
+
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:gravity="center"
+                android:text="Comentarios"
+                android:layout_marginLeft="0dp"/>
+
+
+            <TextView
+                android:id="@+id/idTextViewPaginaProjetoQuantidadeDeComentarios"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginLeft="240dp"
+                android:gravity="center"
+                android:text="0"
+                android:textAlignment="center"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/idButtonPaginaProjetoActivityBotaoContribuir"
+        android:background="#2F9314"
+        android:text="Contribuir"
+        android:textColor="#FFFFFF" />
+
+
+
+</LinearLayout>

@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button botaoEntrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
-
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 String textoSenha = campoSenha.getText().toString();
 
                 if (!textoEmail.isEmpty() & !textoSenha.isEmpty()) {
+                    dialog.show();
                     validarLogin(textoEmail, textoSenha);
                 } else {
                     mensagem("Preencha os dados");
@@ -72,9 +75,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void inicializa() {
-        campoEmail = findViewById(R.id.editEmail);
-        campoSenha = findViewById(R.id.editSenha);
+        campoEmail = findViewById(R.id.idEditTextCadastroActivityEmail);
+        campoSenha = findViewById(R.id.idEditTextCadastroActivitySenha);
         botaoEntrar = findViewById(R.id.buttonEntrar);
+
+        dialog = new ProgressDialog(this);
+        dialog.setTitle("Aguarde");
+        dialog.setMessage("Efetuando Login . . .");
 
     }
 
@@ -97,6 +104,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 } else {
+                    dialog.dismiss();
 
                     String excecao = "";
                     try {
@@ -113,22 +121,28 @@ public class LoginActivity extends AppCompatActivity {
                     mensagem(excecao);
                 }
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialog.dismiss();
+            }
         });
 
     }
 
     private void getUsuarioFirebase() {
         String uid = Conexao.getFirebaseAuth().getCurrentUser().getUid();
-
+        final ProgressDialog dialog = new ProgressDialog(this);
         Conexao.getDatabase().child("usuarios").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Usuario usuario = Usuario.usuario;
-                Log.i("uid", "Cheguei aq");
 
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
-                Usuario.usuario = new Usuario(value);
+                Log.i("progresso", "Cheguei aq");
+                Usuario.usuario = new Usuario(value, LoginActivity.this);
+                dialog.dismiss();
                 startActivity(intent);
                 finish();
 
@@ -136,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
+                dialog.dismiss();
                 Log.i("uid", "deu ruim");
             }
         });

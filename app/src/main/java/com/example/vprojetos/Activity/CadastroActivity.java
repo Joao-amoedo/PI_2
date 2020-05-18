@@ -3,6 +3,7 @@ package com.example.vprojetos.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,7 +28,7 @@ public class CadastroActivity extends AppCompatActivity {
     private Button botaoCadastrar;
     private FirebaseAuth autenticacao;
     private Usuario usuario;
-
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class CadastroActivity extends AppCompatActivity {
                 if (!nome.isEmpty() & !cpf.isEmpty() &
                     !email.isEmpty() & !senha.isEmpty() & !confirmarSenha.isEmpty()){
                     if(senha.equals(confirmarSenha)){
+                        dialog.show();
                         cadastrarUsuario(email, senha);
                     }else
                         alert("As senhas não são iguais");
@@ -63,12 +65,17 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void inicializa() {
-        campoNomeCompleto = findViewById(R.id.editNomeCompleto);
-        campoCPF = findViewById(R.id.editCPF);
-        campoEmail = findViewById(R.id.editEmail);
-        campoSenha = findViewById(R.id.editSenha);
-        campoConfirmarSenha = findViewById(R.id.editConfirmarSenha);
-        botaoCadastrar = findViewById(R.id.buttonCadastrar);
+        campoNomeCompleto = findViewById(R.id.idEditTextCadastroActivityNomeCompleto);
+        campoCPF = findViewById(R.id.idEditTextCadastroActivityCpf);
+        campoEmail = findViewById(R.id.idEditTextCadastroActivityEmail);
+        campoSenha = findViewById(R.id.idEditTextCadastroActivitySenha);
+        campoConfirmarSenha = findViewById(R.id.idEditTextCadastroActivityConfirmarSenha);
+        botaoCadastrar = findViewById(R.id.idButtonCadastroActivityCadastrar);
+
+        dialog = new ProgressDialog(this);
+        dialog.setTitle("Aguarde");
+        dialog.setMessage("Realizando cadastro. . .");
+
     }
 
 
@@ -79,12 +86,13 @@ public class CadastroActivity extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        alert("Usuario Cadastrado com sucesso");
                         String uid = autenticacao.getCurrentUser().getUid();
                         salvaUsuario(uid);
+                        dialog.dismiss();
                         alert("Usuario inserido com sucesso");
                         abrirTelaLogin();
                     } else {
+                        dialog.dismiss();
                         if(task.getException().getClass() == FirebaseAuthUserCollisionException.class){
                             alert("Email já cadastrado");
                         }else{
