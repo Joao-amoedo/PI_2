@@ -9,11 +9,14 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.vprojetos.R;
+import com.paypal.android.sdk.payments.PayPalOAuthScopes;
+import com.paypal.android.sdk.payments.PayPalProfileSharingActivity;
 
-public class InitialActivity extends AppCompatActivity {
+public class InitialActivity extends AppCompatActivity implements View.OnClickListener{
 
-    Button buttonCadastrar;
-    Button buttonLogin;
+    Button cadastrarButton;
+    Button loginButton;
+    Button pagamentoButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,22 +26,31 @@ public class InitialActivity extends AppCompatActivity {
         getSupportActionBar().hide(); //Esconde a Action Bar
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        Button buttonCadastrar = findViewById(R.id.buttoncadastroid);
-        Button buttonLogin = findViewById(R.id.buttonloginid);
+        inicializa();
 
-        buttonCadastrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(InitialActivity.this, CadastroActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
 
-        buttonLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(InitialActivity.this, LoginActivity.class));
-            }
-        });
+    private void inicializa() {
+        cadastrarButton = findViewById(R.id.idButtonInitialActivityCadastro);
+        loginButton = findViewById(R.id.idButtonInitialActivityLogin);
+        pagamentoButton = findViewById(R.id.idButtonInitialActivityPagamento);
+
+        cadastrarButton.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
+        pagamentoButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if(view == cadastrarButton){
+            Intent intent = new Intent(this, CadastroActivity.class);
+            startActivity(intent);
+        }else if(view == loginButton){
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        }else if(view == pagamentoButton){
+            Intent intent = new Intent(this, PagamentoActivity.class);
+            startActivity(intent);
+        }
     }
 }

@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText campoEmail, campoSenha;
     private Button botaoEntrar;
     private Usuario usuario;
+
     private FirebaseAuth autenticacao;
     ProgressDialog dialog;
 

@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,11 +22,9 @@ import com.example.vprojetos.R;
 import com.example.vprojetos.enums.Categoria;
 import com.example.vprojetos.model.Projeto;
 import com.example.vprojetos.model.ProjetoDAO;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 
 public class CadastroNovoProjetoActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener, View.OnClickListener {
 
@@ -37,8 +34,7 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
     private Spinner spinnerCategoria;
     private TextView categoriaTextView;
     private EditText nomeProjetoEditText, valorDesejadoEditText, descricaoProjetoEditText;
-    private Button cadastroButton, escolheImagemButton;
-    private ImageView imagemProjetoImage;
+    private Button cadastroButton, escolheImagemCapaButton, adicionaImagemButton;
     private boolean imagemSelecionada = false;
 
 
@@ -48,6 +44,8 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
     private String descricaoProjeto;
     private double dinheiroAlvo;
     private Uri fileImageCapa;
+    private ArrayList<Uri> arrayImagens;
+    private boolean adicionaImagemSecundaria;
 
 
     @Override
@@ -74,13 +72,15 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
         descricaoProjetoEditText = findViewById(R.id.idEditTextCadastroNovoProjetoDescricaoProjeto);
         nomeProjetoEditText = findViewById(R.id.idEditTextCadastroNovoProjetoNomeProjeto);
         valorDesejadoEditText = findViewById(R.id.idEditTextCadastroNovoProjetoValorDesejado);
-        cadastroButton = findViewById(R.id.idButtonCadastroNovoProjetoCadastro);
-        escolheImagemButton = findViewById(R.id.idButtonCadastroNovoProjetoEscolheImagem);
-        imagemProjetoImage = findViewById(R.id.idImageViewCadastroNovoProjetoImagem);
+        cadastroButton = findViewById(R.id.idButtonCadastroNovoProjetoCadastrar);
+        escolheImagemCapaButton = findViewById(R.id.idButtonCadastroNovoProjetoEscolheImagemCapa);
+        adicionaImagemButton = findViewById(R.id.idButtonCadastroNovoProjetoAdicionaImagem);
 
-        escolheImagemButton.setOnClickListener(this);
+
+        escolheImagemCapaButton.setOnClickListener(this);
         cadastroButton.setOnClickListener(this);
-
+        adicionaImagemButton.setOnClickListener(this);
+        arrayImagens = new ArrayList<>();
 
         setAdapter();
     }
@@ -105,21 +105,20 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
     public void onClick(View view) {
         if (view == cadastroButton) {
             if (validaCampos()) {
-
-
                 Projeto projeto = new Projeto(nomeProjeto, Categoria.valueOf(categoria),
                                                 dinheiroAlvo, descricaoProjeto);
+                ProjetoDAO.saveProjeto(projeto, this, fileImageCapa, arrayImagens);
 
-                ProjetoDAO.saveProjeto(projeto, this, fileImageCapa);
-                mensagem("Cadastrado com sucesso");
-                finish();
             } else {
                 //Algum campo é nulo
                 mensagem("Todos os campos são obrigatórios");
 
-
             }
-        } else if (view == escolheImagemButton) {
+        } else if (view == escolheImagemCapaButton) {
+            adicionaImagemSecundaria = false;
+            pedePermissao();
+        } else if(view == adicionaImagemButton){
+            adicionaImagemSecundaria = true;
             pedePermissao();
         }
 
@@ -154,9 +153,14 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
 
         switch (requestCode){
             case(PICK_IMAGE_REQUEST):
-                imagemProjetoImage.setImageURI(data.getData());
+
+                if(!adicionaImagemSecundaria){
                 imagemSelecionada = true;
                 fileImageCapa = data.getData();
+                }else{
+                    Uri fileImagemSecundaria = data.getData();
+                    arrayImagens.add(fileImagemSecundaria);
+                }
                 break;
         }
 
@@ -197,4 +201,5 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
             return true;
         }
     }
+
 }

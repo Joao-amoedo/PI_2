@@ -52,8 +52,16 @@ public class Projeto implements Serializable {
 
         if(map.containsKey("usuariosDoacoes"))
             this.usuariosDoacoes = (HashMap<String, Double>) map.get("usuariosDoacoes");
-        if(map.containsKey("notas"))
-            this.notas = (HashMap<String, Integer>) map.get("notas");
+        if(map.containsKey("notas")){
+            HashMap<String, Long> notas = (HashMap<String, Long>) map.get("notas");
+            HashMap<String, Integer> notasInteger = new HashMap<>();
+
+            for (String key: notas.keySet()) {
+                Long aLong = notas.get(key);
+                notasInteger.put(key, aLong.intValue());
+            }
+            this.notas = notasInteger;
+        }
         if(map.containsKey("comentarios"))
             this.comentarios = (HashMap<String, String>) map.get("comentarios");
 
@@ -102,6 +110,10 @@ public class Projeto implements Serializable {
 
     public void setDescricaoDoProjeto(String descricaoDoProjeto) {
         this.descricaoDoProjeto = descricaoDoProjeto;
+    }
+
+    public void adicionarNota(String uid, int nota){
+        this.notas.put(uid, nota);
     }
 
     public String getUidAutor() {

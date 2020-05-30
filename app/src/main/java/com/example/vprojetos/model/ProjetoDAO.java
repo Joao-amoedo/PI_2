@@ -24,34 +24,41 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import android.net.Uri;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class ProjetoDAO {
     private final boolean projetoExistente = false;
     private StorageReference storageReference;
-    public static void saveProjeto(final Projeto projeto, final Activity activity, Uri fileImageCapaPath){
-        verificaNomeEGravaNoBanco(projeto, activity, fileImageCapaPath);
+
+    public static void saveProjeto(final Projeto projeto, final Activity activity,
+                                   Uri fileImageCapaPath, List<Uri> imagensSecundarias) {
+        verificaNomeEGravaNoBanco(projeto, activity, fileImageCapaPath, imagensSecundarias);
 
     }
 
-    private static void verificaNomeEGravaNoBanco(final Projeto projeto, final Activity activity, final Uri fileImageCapaPath) {
+    private static void verificaNomeEGravaNoBanco(final Projeto projeto,
+                                                  final Activity activity,
+                                                  final Uri fileImageCapaPath,
+                                                  final List<Uri> imagensSecundarias) {
         Conexao.getDatabase().child("projetos").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
                 HashMap<String, Object> projetosBanco = (HashMap<String, Object>) dataSnapshot.getValue();
 
 
-                if(projetosBanco.containsKey(projeto.getNome())){
+                if (projetosBanco.containsKey(projeto.getNome())) {
                     // NOME JÁ EXISTE NO BANCO
                     mensagem(activity, "Projeto já existe com esse nome");
-                }else{
+                } else {
                     // NOME DO PROJETO NÃO EXISTE, CRIAR NOVO PROJETO NO BANCO
-
-                    gravaImagemEProjetoNoBanco(dataSnapshot, projeto, fileImageCapaPath, activity);
-
+                    gravaImagemEProjetoNoBanco(dataSnapshot, activity, projeto, fileImageCapaPath, imagensSecundarias);
 
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -59,27 +66,73 @@ public class ProjetoDAO {
         });
     }
 
-    private static void gravaImagemEProjetoNoBanco(@NonNull final DataSnapshot dataSnapshot, final Projeto projeto, Uri fileImageCapaPath, final Activity activity) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+    private static void gravaImagemEProjetoNoBanco(@NonNull final DataSnapshot dataSnapshot,
+                                                   final Activity activity,
+                                                   final Projeto projeto,
+                                                   final Uri fileImageCapaPath,
+                                                   final List<Uri> imagensSecundarias) {
+
+        final StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         final ProgressDialog progressDialog = new ProgressDialog(activity);
         progressDialog.setTitle("Realizando Cadastro");
+        progressDialog.setMessage("Aguarde enquanto termina o cadastro");
         progressDialog.show();
+
+        Integer i = 1;
+        final List<Integer> completos = new ArrayList<>();
+
+        if(!imagensSecundarias.isEmpty()){
+            for (Uri imagemSecundaria: imagensSecundarias) {
+                storageReference
+                        .child("projetos")
+                        .child(projeto.getNome())
+                        .child(i.toString() + ".png")
+                        .putFile(imagemSecundaria)
+                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                                completos.add(1);
+                                if(completos.size() == imagensSecundarias.size()){
+                                    salvaImagemCapa(dataSnapshot, activity, projeto, fileImageCapaPath, storageReference, progressDialog);
+                                }
+                            }
+                        });
+                i++;
+
+            }
+        }else{
+            salvaImagemCapa(dataSnapshot, activity, projeto, fileImageCapaPath, storageReference, progressDialog);
+        }
+
+
+
+
+
+
+    }
+
+    private static void salvaImagemCapa(@NonNull final DataSnapshot dataSnapshot,
+                                        final Activity activity,
+                                        final Projeto projeto,
+                                        Uri fileImageCapaPath,
+                                        StorageReference storageReference,
+                                        final ProgressDialog progressDialog) {
         storageReference
                 .child("projetos")
                 .child(projeto.getNome()).child("capa.png")
                 .putFile(fileImageCapaPath)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                // Terminou de inserir a imagem
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        // Terminou de inserir a imagem
 
-                gravaProjetoNoBanco(dataSnapshot, projeto, activity, progressDialog);
+                        gravaProjetoNoBanco(dataSnapshot, projeto, activity, progressDialog);
 
-            }
-        }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                    }
+                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                progressDialog.setMessage("Aguarde enquanto termina o cadastro");
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -88,7 +141,6 @@ public class ProjetoDAO {
                 progressDialog.dismiss();
             }
         })
-
         ;
     }
 
@@ -100,10 +152,11 @@ public class ProjetoDAO {
 
         progressDialog.dismiss();
         mensagem(activity, "Projeto criado com sucesso");
+        activity.finish();
     }
 
-    public static void salvaImageCapa(Activity activity, Uri image, Projeto projeto){
-        StorageReference storageReference  = FirebaseStorage.getInstance().getReference();
+    public static void salvaImageCapa(Activity activity, Uri image, Projeto projeto) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         storageReference
                 .child("projetos")
                 .child(projeto.getNome()).child("capa.png")
@@ -124,4 +177,12 @@ public class ProjetoDAO {
                 .child(nome);
     }
 
+    public static void atualizaNotas(Projeto projeto) {
+        Conexao
+                .getDatabase()
+                .child("projetos")
+                .child(projeto.getNome())
+                .child("notas")
+                .setValue(projeto.getNotas());
+    }
 }

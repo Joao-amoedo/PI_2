@@ -1,27 +1,29 @@
 package com.example.vprojetos.Activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.vprojetos.PaginaCriadorActivity;
 import com.example.vprojetos.R;
+import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Projeto;
+import com.example.vprojetos.model.ProjetoDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,32 +32,60 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
-public class PaginaProjetoActivity extends Activity implements View.OnClickListener{
+public class PaginaProjetoActivity extends Activity implements View.OnClickListener {
     private TextView tituloDoProjetoTextView;
     private TextView nomeAutorProjetoTextView;
     private TextView descricaoProjetoTextView;
-    private TextView nomeCategoriaTextView, valorArrecadadoTextView, metaValorTextView, quantidadeDoadoresTextView, diasPassadosTextView, quantidadeComentariosTextView;
+    private TextView nomeCategoriaTextView,
+            valorArrecadadoTextView,
+            metaValorTextView,
+            quantidadeDoadoresTextView,
+            diasPassadosTextView,
+            quantidadeComentariosTextView;
     private Projeto projeto;
     private TextView lerMaisSobreProjetoTextView;
     private ConstraintLayout layoutAutorConstraintLayout;
     private ImageView imagemCapaImageView;
     private LinearLayout layoutDescricaoProjetoLinearLayout, layoutComentariosLinearLayout;
-    private Button btnContribuirButton;
+    private Button contribuirButton;
+    private ArrayList<ImageView> arrayListEstrelasImageView = new ArrayList<ImageView>();
+    private Uri imagemCapaUri;
+    private ArrayList<File> arrayImagensSecundarias = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagina_projeto);
-
-
         inicializa();
-
-
     }
 
     private void inicializa() {
+        projeto = (Projeto) getIntent().getExtras().get("projeto");
+        inicializaViews();
+        inicializaListeners();
+        inicializaCapa();
+        inicializaTextos();
+        inicializaNotas();
+
+    }
+
+    private void inicializaListeners() {
+        layoutAutorConstraintLayout.setOnClickListener(this);
+        layoutDescricaoProjetoLinearLayout.setOnClickListener(this);
+        contribuirButton.setOnClickListener(this);
+        layoutComentariosLinearLayout.setOnClickListener(this);
+        for (ImageView estrela : arrayListEstrelasImageView) {
+            estrela.setOnClickListener(this);
+        }
+    }
+
+    private void inicializaViews() {
         tituloDoProjetoTextView = findViewById(R.id.idTextViewPaginaProjetoActivityTituloProjeto);
         nomeAutorProjetoTextView = findViewById(R.id.idTextViewPaginaProjetoActivityNomeAutor);
         descricaoProjetoTextView = findViewById(R.id.idTextViewPaginaProjetoActivityDescricaoProjeto);
@@ -68,45 +98,50 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
         layoutAutorConstraintLayout = findViewById(R.id.idConstraintLayoutPaginaProjetoActivityLayoutAutor);
         layoutDescricaoProjetoLinearLayout = findViewById(R.id.idLinearLayoutPaginaProjetoActivityLayoutDescricaoProjeto);
         imagemCapaImageView = findViewById(R.id.idImageViewPaginaProjetoActivityImagemCapa);
-        btnContribuirButton = findViewById(R.id.idButtonPaginaProjetoActivityBotaoContribuir);
+        contribuirButton = findViewById(R.id.idButtonPaginaProjetoActivityBotaoContribuir);
         quantidadeComentariosTextView = findViewById(R.id.idTextViewPaginaProjetoQuantidadeDeComentarios);
         layoutComentariosLinearLayout = findViewById(R.id.idLinearLayoutPaginaProjetoActivityLayoutComentarios);
 
+        arrayListEstrelasImageView.add((ImageView) findViewById(R.id.idImageViewPaginaProjetoActivityEstrela1));
+        arrayListEstrelasImageView.add((ImageView) findViewById(R.id.idImageViewPaginaProjetoActivityEstrela2));
+        arrayListEstrelasImageView.add((ImageView) findViewById(R.id.idImageViewPaginaProjetoActivityEstrela3));
+        arrayListEstrelasImageView.add((ImageView) findViewById(R.id.idImageViewPaginaProjetoActivityEstrela4));
+        arrayListEstrelasImageView.add((ImageView) findViewById(R.id.idImageViewPaginaProjetoActivityEstrela5));
+    }
 
-        projeto = (Projeto) getIntent().getExtras().get("projeto");
+    private void inicializaCapa() {
         File imagemCapa = (File) getIntent().getExtras().get("imagemCapa");
-
-        Uri uri = Uri.fromFile(imagemCapa);
+        imagemCapaUri = Uri.fromFile(imagemCapa);
         //imagemCapaImageView.setImageURI(uri);
-
         Picasso
                 .get()
-                .load(uri)
+                .load(imagemCapaUri)
                 .fit()
                 .centerCrop()
                 .into(imagemCapaImageView);
+    }
 
-
+    private void inicializaTextos() {
         tituloDoProjetoTextView.setText(projeto.getNome());
         nomeAutorProjetoTextView.setText(projeto.getNomeAutor());
         descricaoProjetoTextView.setText(projeto.getDescricaoDoProjeto());
         nomeCategoriaTextView.setText(projeto.getCategoria().toString());
-        valorArrecadadoTextView.setText("Arrecadado " +projeto.getDinheiroArrecadado() + " R$");
+        valorArrecadadoTextView.setText("Arrecadado " + projeto.getDinheiroArrecadado() + " R$");
         quantidadeDoadoresTextView.setText(projeto.getUsuariosDoacoes().size() + "");
         metaValorTextView.setText("Meta " + projeto.getDinheiroAlvo() + " R$");
         quantidadeComentariosTextView.setText(projeto.getComentarios().size() + "");
-
         long diferencaDeDias = getDiferencaDeDias(new Date().getTime(), projeto.getDataFim());
         diasPassadosTextView.setText(diferencaDeDias + "");
+    }
 
-        layoutAutorConstraintLayout.setOnClickListener(this);
-        layoutDescricaoProjetoLinearLayout.setOnClickListener(this);
-        btnContribuirButton.setOnClickListener(this);
-        layoutComentariosLinearLayout.setOnClickListener(this);
-
-        //TODO Centrarlizar imagem
-        //LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(250, 250);
-        //imagemCapaImageView.setLayoutParams(layoutParams);
+    private void inicializaNotas() {
+        String uid = Conexao.getFirebaseAuth().getUid();
+        HashMap<String, Integer> notas = projeto.getNotas();
+        if (notas.containsKey(uid)) {
+            Integer nota = notas.get(uid) - 1;
+            ImageView estrela = arrayListEstrelasImageView.get(nota);
+            definePontuacao(estrela);
+        }
     }
 
     private void getImage() throws IOException {
@@ -148,21 +183,90 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if(view == layoutAutorConstraintLayout){
+        if (view == layoutAutorConstraintLayout) {
             mensagem("Levar para a pagina do autor");
+            startActivity(new Intent(this, PaginaCriadorActivity.class));
             //TODO levar para a pagina do autor
-        }
-        else if(view == layoutDescricaoProjetoLinearLayout){
-            mensagem("Levar para descrição detalahda do projeto");
-            //TODO Levar para descrição detalahda do projeto
-        }
-        else if(view == btnContribuirButton){
+        } else if (view == layoutDescricaoProjetoLinearLayout) {
+            ProgressDialog dialog = new ProgressDialog(this);
+            dialog.setTitle("Aguarde");
+            dialog.setMessage("Carregando . . .");
+            dialog.show();
+            pegaImagensSecundarias(1, dialog);
+
+
+        } else if (view == contribuirButton) {
             mensagem("Levar para pagina do pagamento");
             //TODO construir pagina do pagamento
-        }
-        else if(view == layoutComentariosLinearLayout){
+        } else if (view == layoutComentariosLinearLayout) {
             mensagem("Levar para pagina de comentarios");
             //TODO construir pagina de comentarios
+        } else if (arrayListEstrelasImageView.contains(view)) {
+            definePontuacao(view);
         }
+
+
+    }
+
+    private void pegaImagensSecundarias(final Integer numeroDaImagem, final ProgressDialog dialog) {
+        StorageReference reference = FirebaseStorage.getInstance().getReference();
+        File file = null;
+        try {
+            file = File.createTempFile("imagem", "jpg");
+        } catch (IOException e) {
+            dialog.dismiss();
+            return;
+        }
+
+        final File fileFinal = file;
+
+        reference
+                .child("projetos")
+                .child("abc")
+                .child(numeroDaImagem + ".png")
+                .getFile(file)
+                .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        arrayImagensSecundarias.add(fileFinal);
+                        pegaImagensSecundarias(numeroDaImagem + 1, dialog);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                dialog.dismiss();
+                startDescricaoProjeto();
+            }
+        });
+
+    }
+
+    private void startDescricaoProjeto() {
+
+        Intent intent = new Intent(PaginaProjetoActivity.this,
+                DescricaoProjetoActivity.class);
+        intent.putExtra("capa", imagemCapaUri);
+        intent.putExtra("projeto", projeto);
+        intent.putExtra("imagensSecundarias", arrayImagensSecundarias);
+        startActivity(intent);
+
+    }
+
+    private void definePontuacao(View estrela) {
+        int index = arrayListEstrelasImageView.indexOf(estrela);
+        for (int i = 0; i < arrayListEstrelasImageView.size(); i++) {
+            if (i <= index)
+                arrayListEstrelasImageView.get(i).setImageResource(android.R.drawable.btn_star_big_on);
+            else
+                arrayListEstrelasImageView.get(i).setImageResource(android.R.drawable.btn_star_big_off);
+        }
+        setNota(index + 1);
+
+
+    }
+
+    private void setNota(int nota) {
+        projeto.adicionarNota(Conexao.getFirebaseAuth().getUid(), nota);
+        ProjetoDAO.atualizaNotas(projeto);
     }
 }
