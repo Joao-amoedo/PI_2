@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vprojetos.R;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button botaoEntrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
-
+    private TextView recuperarSenha;
 
 
     @Override
@@ -52,9 +53,18 @@ public class LoginActivity extends AppCompatActivity {
 
         inicializa();
 
-
         listenerButton();
 
+        recuperarSenha = findViewById(R.id.textView);
+
+        recuperarSenha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LoginActivity.this,RecuperarSenhaActivity.class);
+                startActivity(intent);
+
+            }
+        });
     }
 
     private void listenerButton() {
@@ -72,7 +82,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-
 
 
     }
@@ -127,3 +136,4 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 }
+
