@@ -18,6 +18,7 @@
         android:src="@drawable/avatar" />
 
     <TextView
+        android:id="@+id/idTextViewPaginaCriadorActivityNome"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -26,6 +27,7 @@
         android:textSize="24dp" />
 
     <TextView
+        android:id="@+id/idTextViewPaginaCriadorActivityEndereco"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -41,6 +43,7 @@
         android:background="#2F9314" />
 
     <TextView
+        android:id="@+id/idTextViewPaginaCriadorActivityBio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -72,6 +75,7 @@
                 android:text="Data da criação da conta: " />
 
             <TextView
+                android:id="@+id/idTextViewPaginaCriadorActivityDataCriacaoConta"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -106,6 +110,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/idTextViewPaginaCriadorActivityDataUltimaConexao"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
@@ -123,9 +128,10 @@
                 android:text="Projetos criados: " />
 
             <TextView
+                android:id="@+id/idTextViewPaginaCriadorActivityQuantidadeProjetosCriados"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3" />
+                android:text="0" />
 
 
         </LinearLayout>
@@ -148,6 +154,7 @@
                 android:text="Contribuições: " />
 
             <TextView
+                android:id="@+id/idTextViewPaginaCriadorActivityQuantidadeContribuicoes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="10" />

@@ -13,6 +13,7 @@ import com.example.vprojetos.Activity.MainActivity;
 import com.example.vprojetos.config.Conexao;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -81,8 +82,8 @@ public class ProjetoDAO {
         Integer i = 1;
         final List<Integer> completos = new ArrayList<>();
 
-        if(!imagensSecundarias.isEmpty()){
-            for (Uri imagemSecundaria: imagensSecundarias) {
+        if (!imagensSecundarias.isEmpty()) {
+            for (Uri imagemSecundaria : imagensSecundarias) {
                 storageReference
                         .child("projetos")
                         .child(projeto.getNome())
@@ -92,7 +93,7 @@ public class ProjetoDAO {
                             @Override
                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                 completos.add(1);
-                                if(completos.size() == imagensSecundarias.size()){
+                                if (completos.size() == imagensSecundarias.size()) {
                                     salvaImagemCapa(dataSnapshot, activity, projeto, fileImageCapaPath, storageReference, progressDialog);
                                 }
                             }
@@ -100,13 +101,9 @@ public class ProjetoDAO {
                 i++;
 
             }
-        }else{
+        } else {
             salvaImagemCapa(dataSnapshot, activity, projeto, fileImageCapaPath, storageReference, progressDialog);
         }
-
-
-
-
 
 
     }
@@ -185,4 +182,25 @@ public class ProjetoDAO {
                 .child("notas")
                 .setValue(projeto.getNotas());
     }
+
+    public static void atualizaComentario(final Activity activity, Projeto projeto) {
+        Conexao
+                .getDatabase()
+                .child("projetos")
+                .child(projeto.getNome())
+                .child("comentariosHash")
+                .setValue(projeto.getComentariosHash())
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        mensagem(activity, "Comentário adicionado com sucesso");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                mensagem(activity, e.getMessage());
+            }
+        });
+    }
+
 }

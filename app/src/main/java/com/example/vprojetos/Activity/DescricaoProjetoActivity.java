@@ -51,7 +51,6 @@ public class DescricaoProjetoActivity extends Activity {
         projeto = (Projeto) extras.get("projeto");
         imagensSecundarias = (ArrayList<File>) extras.get("imagensSecundarias");
 
-
         Picasso
                 .get()
                 .load(imagemCapaUri)

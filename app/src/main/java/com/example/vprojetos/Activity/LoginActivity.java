@@ -142,7 +142,10 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 HashMap<String, Object> value = (HashMap<String, Object>) dataSnapshot.getValue();
                 Log.i("progresso", "Cheguei aq");
-                Usuario.usuario = new Usuario(value, LoginActivity.this);
+                Usuario.usuario = new Usuario(value);
+
+
+
                 dialog.dismiss();
                 startActivity(intent);
                 finish();

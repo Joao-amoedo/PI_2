@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.example.vprojetos.Activity.LoginActivity;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -13,7 +14,7 @@ import java.util.List;
 
 import static androidx.constraintlayout.widget.Constraints.TAG;
 
-public class Usuario {
+public class Usuario implements Serializable {
     public static Usuario usuario = new Usuario();
 
     private String nome;
@@ -23,7 +24,7 @@ public class Usuario {
     private HashMap<String, Integer> notas = new HashMap<String, Integer>();
     private HashMap<String, String> comentario = new HashMap<String, String>();
     private List<String> projetosCriados = new ArrayList<>();
-
+    private String bio;
     private HashMap<String, Object> map = new HashMap<String, Object>();
 
 
@@ -37,7 +38,7 @@ public class Usuario {
         this.email = email;
     }
 
-    public Usuario(HashMap<String, Object> map, Activity activity) {
+    public Usuario(HashMap<String, Object> map) {
         // Construtor do banco de dados
         this.nome = (String) map.get("nome");
         this.cpf = (String) map.get("cpf");
@@ -68,8 +69,6 @@ public class Usuario {
 
             }
         }
-
-
     }
 
     public List<String> getProjetosCriados() {

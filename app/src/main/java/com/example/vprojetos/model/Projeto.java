@@ -1,5 +1,7 @@
 package com.example.vprojetos.model;
 
+import android.util.Log;
+
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.enums.Categoria;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,42 +30,69 @@ public class Projeto implements Serializable {
     private HashMap<String, Double> usuariosDoacoes = new HashMap<String, Double>(); // Usuários que doaram para o projeto
     private HashMap<String, Integer> notas = new HashMap<String, Integer>(); // Notas que os usuários deram para o projeto
     private HashMap<String, String> comentarios = new HashMap<String, String>(); // Comentários dos usuários
+    private HashMap<String, Comentario> comentariosHash = new HashMap<>(); // Comentários do usuário
 
 
-    public Projeto(HashMap<String, Object> map){
+    public Projeto(HashMap<String, Object> map) {
         // Construtor do banco de dados
 
         this.nome = (String) map.get("nome");
         this.UidAutor = (String) map.get("uidAutor");
         this.nomeAutor = (String) map.get("nomeAutor");
 
-        this.dinheiroArrecadado = Double.parseDouble( map.get("dinheiroArrecadado").toString() );
+        this.dinheiroArrecadado = Double.parseDouble(map.get("dinheiroArrecadado").toString());
         this.dinheiroAlvo = Double.parseDouble(map.get("dinheiroAlvo").toString());
 
         this.dataInicio = Long.parseLong(map.get("dataInicio").toString());
         this.dataFim = Long.parseLong(map.get("dataFim").toString());
 
-        this.categoria = Categoria.valueOf( (String) map.get("categoria")  );
+        this.categoria = Categoria.valueOf((String) map.get("categoria"));
         this.descricaoDoProjeto = (String) map.get("descricaoDoProjeto");
         this.projetoConcluido = Boolean.parseBoolean(map.get("projetoConcluido").toString());
 
         this.dinheiroArrecadadoComSucesso = Boolean.parseBoolean(map.get("dinheiroArrecadadoComSucesso").toString());
 
 
-        if(map.containsKey("usuariosDoacoes"))
+        if (map.containsKey("usuariosDoacoes"))
             this.usuariosDoacoes = (HashMap<String, Double>) map.get("usuariosDoacoes");
-        if(map.containsKey("notas")){
+        if (map.containsKey("notas")) {
             HashMap<String, Long> notas = (HashMap<String, Long>) map.get("notas");
             HashMap<String, Integer> notasInteger = new HashMap<>();
 
-            for (String key: notas.keySet()) {
+            for (String key : notas.keySet()) {
                 Long aLong = notas.get(key);
                 notasInteger.put(key, aLong.intValue());
             }
             this.notas = notasInteger;
         }
-        if(map.containsKey("comentarios"))
+        if (map.containsKey("comentarios"))
             this.comentarios = (HashMap<String, String>) map.get("comentarios");
+
+        if (map.containsKey("comentariosHash")) {
+            HashMap<String, HashMap<String, Object>> comentariosHash =
+                    (HashMap<String, HashMap<String, Object>>) map.get("comentariosHash");
+
+            for (String key : comentariosHash.keySet()) {
+
+                HashMap<String, Object> stringObjectHashMap = comentariosHash.get(key);
+
+                Long dataComentario = (Long) stringObjectHashMap.get("dataComentario");
+                String descricao = (String) stringObjectHashMap.get("descricao");
+                String nomeUsuario = (String) stringObjectHashMap.get("nomeUsuario");
+
+
+                Log.i("comentariosHash", dataComentario.getClass() + "");
+                Log.i("comentariosHash", descricao.getClass() + "");
+                Log.i("comentariosHash", nomeUsuario.getClass() + "");
+
+                Comentario comentario = new Comentario(nomeUsuario, descricao, dataComentario);
+                if(this.comentariosHash != null)
+                    this.comentariosHash.put(key, comentario);
+
+            }
+
+
+        }
 
 
     }
@@ -112,7 +141,7 @@ public class Projeto implements Serializable {
         this.descricaoDoProjeto = descricaoDoProjeto;
     }
 
-    public void adicionarNota(String uid, int nota){
+    public void adicionarNota(String uid, int nota) {
         this.notas.put(uid, nota);
     }
 
@@ -213,31 +242,44 @@ public class Projeto implements Serializable {
         this.usuariosDoacoes = usuariosDoacoes;
     }
 
-    public Date dataInicioToDate(){
+    public void setComentariosHash(HashMap<String, Comentario> comentariosHash) {
+        this.comentariosHash = comentariosHash;
+    }
+
+    public void addComentario(Comentario comentario) {
+        this.comentariosHash.put(comentario.getDataComentario() + "", comentario);
+    }
+
+
+    public HashMap<String, Comentario> getComentariosHash() {
+        return comentariosHash;
+    }
+
+    public Date dataInicioToDate() {
         Date date = new Date(dataInicio);
         return date;
     }
 
-    public Date dataFimToDate(){
+    public Date dataFimToDate() {
         Date date = new Date(dataFim);
         return date;
     }
 
-    public void recebeDoacao(double novoValor){
-        if(projetoConcluido) // Projetos concluidos não podem receber doação
+    public void recebeDoacao(double novoValor) {
+        if (projetoConcluido) // Projetos concluidos não podem receber doação
             return;
 
         String uid = FirebaseAuth.getInstance().getUid();
 
-        if (usuariosDoacoes.containsKey(uid)){
+        if (usuariosDoacoes.containsKey(uid)) {
             Double valorDoadoDoUsuario = usuariosDoacoes.get(uid);
             usuariosDoacoes.put(uid, novoValor + valorDoadoDoUsuario);
-        }else {
+        } else {
             usuariosDoacoes.put(uid, novoValor);
         }
     }
 
-    public void recebeAvaliacao(int nota){
+    public void recebeAvaliacao(int nota) {
         String uid = FirebaseAuth.getInstance().getUid();
 
         notas.put(uid, nota);

@@ -21,10 +21,14 @@ import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Projeto;
 import com.example.vprojetos.model.ProjetoDAO;
+import com.example.vprojetos.model.Usuario;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -129,7 +133,7 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
         valorArrecadadoTextView.setText("Arrecadado " + projeto.getDinheiroArrecadado() + " R$");
         quantidadeDoadoresTextView.setText(projeto.getUsuariosDoacoes().size() + "");
         metaValorTextView.setText("Meta " + projeto.getDinheiroAlvo() + " R$");
-        quantidadeComentariosTextView.setText(projeto.getComentarios().size() + "");
+        quantidadeComentariosTextView.setText(projeto.getComentariosHash().size() + "");
         long diferencaDeDias = getDiferencaDeDias(new Date().getTime(), projeto.getDataFim());
         diasPassadosTextView.setText(diferencaDeDias + "");
     }
@@ -184,8 +188,26 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == layoutAutorConstraintLayout) {
-            mensagem("Levar para a pagina do autor");
-            startActivity(new Intent(this, PaginaCriadorActivity.class));
+            final String uidAutor = projeto.getUidAutor();
+
+            Conexao.getDatabase().child("usuarios").child(uidAutor).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    HashMap<String, Object> map =(HashMap<String, Object>) dataSnapshot.getValue();
+                    Usuario usuario = new Usuario(map);
+
+                    Intent intent = new Intent(PaginaProjetoActivity.this, PaginaCriadorActivity.class);
+                    intent.putExtra("usuario", usuario);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+            //startActivity(new Intent(this, PaginaCriadorActivity.class));
             //TODO levar para a pagina do autor
         } else if (view == layoutDescricaoProjetoLinearLayout) {
             ProgressDialog dialog = new ProgressDialog(this);
@@ -199,13 +221,21 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
             mensagem("Levar para pagina do pagamento");
             //TODO construir pagina do pagamento
         } else if (view == layoutComentariosLinearLayout) {
-            mensagem("Levar para pagina de comentarios");
+            startActivityComentarios();
             //TODO construir pagina de comentarios
         } else if (arrayListEstrelasImageView.contains(view)) {
             definePontuacao(view);
         }
 
 
+    }
+
+    private void startActivityComentarios() {
+        Intent intent = new Intent(this, ComentariosActivity.class);
+        intent.putExtra("nomeAutor", projeto.getNomeAutor());
+        intent.putExtra("projeto", projeto);
+        intent.putExtra("capa", imagemCapaUri);
+        startActivity(intent);
     }
 
     private void pegaImagensSecundarias(final Integer numeroDaImagem, final ProgressDialog dialog) {
@@ -267,6 +297,6 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
 
     private void setNota(int nota) {
         projeto.adicionarNota(Conexao.getFirebaseAuth().getUid(), nota);
-        ProjetoDAO.atualizaNotas(projeto);
+        ProjetoDAO.atualizaNotas( projeto);
     }
 }
