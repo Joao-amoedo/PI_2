@@ -4,50 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.MainActivity">
+    tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/idButtonMainActivityCriarNovoProjeto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Criar Novo Projeto"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.626" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
 
-    <ListView
-        android:id="@+id/idListViewMainActivityListaDeProjetos"
-        android:layout_width="409dp"
-        android:layout_height="339dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lista_alunos">
 
-    <Button
-        android:id="@+id/idButtonMainActivityPegaProjetos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pega Projetos"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idButtonMainActivityCriarNovoProjeto"
-        app:layout_constraintVertical_bias="0.202" />
+        </LinearLayout>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/idListViewMainActivityListaDeProjetos"
-        app:layout_constraintVertical_bias="0.91" />
+
+
+    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
