@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.vprojetos">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,7 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".PaginaCriadorActivity"></activity>
+        <activity android:name=".Activity.DescricaoProjetoActivity" />
+        <activity android:name=".Activity.PaymentDetailsActivity" />
+        <activity android:name=".Activity.PagamentoActivity" />
+        <activity android:name=".Activity.ComentariosActivity" />
+        <activity android:name=".Activity.PaginaProjetoActivity" />
+        <activity
+            android:name=".Activity.CadastroNovoProjetoActivity"
+            android:label="@string/app_name" />
+        <activity android:name=".Activity.TesteImagemActivity" />
+        <activity android:name=".Activity.MainActivity" />
+        <activity android:name=".Activity.EditarPerfilActivity" />
+        <activity android:name=".Activity.InitialActivity" />
+        <activity android:name=".Activity.RecuperarSenhaActivity" />
+        <activity android:name=".Activity.LoginActivity" />
+        <activity android:name=".Activity.CadastroActivity" />
+        <activity android:name=".Activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
