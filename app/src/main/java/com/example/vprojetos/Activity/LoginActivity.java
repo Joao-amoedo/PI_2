@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Usuario;
+import com.example.vprojetos.model.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
@@ -144,6 +145,8 @@ public class LoginActivity extends AppCompatActivity {
                 Log.i("progresso", "Cheguei aq");
                 Usuario.usuario = new Usuario(value);
 
+                Usuario.usuario.setUltimoLogin();
+                UsuarioDAO.updateUltimoLogin();
 
 
                 dialog.dismiss();

@@ -9,6 +9,7 @@ import com.example.vprojetos.Activity.LoginActivity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +27,7 @@ public class Usuario implements Serializable {
     private List<String> projetosCriados = new ArrayList<>();
     private String bio;
     private HashMap<String, Object> map = new HashMap<String, Object>();
+    private Long ultimoLogin;
 
 
     public Usuario() {
@@ -49,17 +51,15 @@ public class Usuario implements Serializable {
             this.notas = (HashMap<String, Integer>) map.get("notas");
         if (map.containsKey("comentarios"))
             this.comentario = (HashMap<String, String>) map.get("comentario");
-        
-
 
 
         //TODO arrumar essa bagunça
         //Pegando projetos criados, ele pode vir como array
         // list ou hash map, dependendo se um projeto foi deletado ou não
-        if(map.containsKey("projetosCriados")){
-            if(map.get("projetosCriados").getClass() == ArrayList.class){
+        if (map.containsKey("projetosCriados")) {
+            if (map.get("projetosCriados").getClass() == ArrayList.class) {
                 this.projetosCriados = (ArrayList) map.get("projetosCriados");
-            }else{
+            } else {
                 HashMap<String, String> projetosCriadosHashMap = (HashMap<String, String>) map.get("projetosCriados");
                 ArrayList<String> projetosCriados = new ArrayList<>();
                 for (String nomeProjeto : projetosCriadosHashMap.values()) {
@@ -69,6 +69,12 @@ public class Usuario implements Serializable {
 
             }
         }
+
+        if(map.containsKey("ultimoLogin")){
+            this.ultimoLogin = (Long) map.get("ultimoLogin");
+        }
+
+
     }
 
     public List<String> getProjetosCriados() {
@@ -148,5 +154,23 @@ public class Usuario implements Serializable {
             projetosCriados.add(nome);
 
         }
+
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public Long getUltimoLogin() {
+        return ultimoLogin;
+    }
+
+    public void setUltimoLogin() {
+        this.ultimoLogin = new Date().getTime();
     }
 }
+
