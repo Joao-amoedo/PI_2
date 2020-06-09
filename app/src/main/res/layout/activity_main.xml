@@ -18,12 +18,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.626" />
 
-    <ListView
-        android:id="@+id/idListViewMainActivityListaDeProjetos"
-        android:layout_width="409dp"
-        android:layout_height="339dp"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idRecyclerViewMainActivityListaDeProjetos"
+        android:layout_width="match_parent"
+        android:layout_height="362dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_projeto">
+
+    </androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/idButtonMainActivityPegaProjetos"
@@ -38,7 +45,7 @@
         app:layout_constraintVertical_bias="0.202" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/idButtonMainActivityOrdenaMediaDecrescente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button"
@@ -46,8 +53,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/idListViewMainActivityListaDeProjetos"
-        app:layout_constraintVertical_bias="0.91" />
+        app:layout_constraintTop_toTopOf="@+id/idRecyclerViewMainActivityListaDeProjetos"
+        app:layout_constraintVertical_bias="0.856" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

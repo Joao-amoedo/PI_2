@@ -286,4 +286,18 @@ public class Projeto implements Serializable {
 
     }
 
+    public float mediaNotas() {
+
+        int soma = 0;
+        for(String key: notas.keySet()){
+            soma += notas.get(key);
+        }
+
+        float media = 0;
+        if(notas.size() > 0){
+            media = soma / notas.size();
+        }
+
+        return media;
+    }
 }

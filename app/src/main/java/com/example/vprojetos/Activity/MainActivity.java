@@ -2,80 +2,79 @@ package com.example.vprojetos.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.vprojetos.Activity.ui.recyclerview.adapter.ListaProjetosAdapter;
 import com.example.vprojetos.R;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Projeto;
-import com.example.vprojetos.model.ProjetoDAO;
+import com.example.vprojetos.utils.QuickSort;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, ValueEventListener, AdapterView.OnItemClickListener {
+public class MainActivity extends Activity implements View.OnClickListener,
+        ValueEventListener, ListaProjetosAdapter.OneProjetoListener {
 
-    private Button btnCriarNovoProjeto, btnPegaProjetos, btnTeste;
-    private ListView listaDeProjetosListView;
-    private ArrayAdapter<String> adapter;
-    HashMap<String, Projeto> projetos;
+    private Button btnCriarNovoProjeto, btnPegaProjetos, ordenaMediaDecrescenteButton;
+    private ListaProjetosAdapter adapter;
 
     private String[] arrayString = {};
     private File localFile;
     private List<File> arrayImagensSecundarias;
+    private List<Projeto> listProjeto;
+    private RecyclerView listaProjetosRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         inicializa();
+
+
     }
 
 
     private void pegaProjetos() {
+
         Conexao.getDatabase().child("projetos").addListenerForSingleValueEvent(this);
 
     }
 
     private void inicializa() {
 
-        listaDeProjetosListView = findViewById(R.id.idListViewMainActivityListaDeProjetos);
         btnCriarNovoProjeto = findViewById(R.id.idButtonMainActivityCriarNovoProjeto);
         btnPegaProjetos = findViewById(R.id.idButtonMainActivityPegaProjetos);
-        btnTeste = findViewById(R.id.button2);
-        arrayImagensSecundarias = new ArrayList<>();
+        ordenaMediaDecrescenteButton = findViewById(R.id.idButtonMainActivityOrdenaMediaDecrescente);
+        listaProjetosRecyclerView = findViewById(R.id.idRecyclerViewMainActivityListaDeProjetos);
 
+        arrayImagensSecundarias = new ArrayList<>();
         btnCriarNovoProjeto.setOnClickListener(this);
         btnPegaProjetos.setOnClickListener(this);
-        btnTeste.setOnClickListener(this);
-        listaDeProjetosListView.setOnItemClickListener(this);
+        ordenaMediaDecrescenteButton.setOnClickListener(this);
 
 
     }
@@ -91,46 +90,74 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(intent);
         } else if (view == btnPegaProjetos) {
             pegaProjetos();
-        } else if (view == btnTeste) {
+        } else if (view == ordenaMediaDecrescenteButton) {
 
-            //StorageReference reference = pegaImagensSecundarias(1);
+            ordenaMediaDecrescente();
 
-            //String path = reference.getPath();
 
         }
     }
 
+    private void ordenaMediaDecrescente() {
+        Projeto[] arrayProjetos = getProjetosArray();
+        ordenaProjetos(arrayProjetos, QuickSort.COMPARACAO_MEDIA, true);
+        configureAdapter(listProjeto);
+    }
+
+    private void ordenaProjetos(Projeto[] arrayProjetos, int comparacao, boolean decrescente) {
+        QuickSort quickSort = new QuickSort(comparacao);
+        quickSort.sort(arrayProjetos, 0, arrayProjetos.length - 1 );
+        listProjeto = Arrays.asList(arrayProjetos);
+        if(decrescente)
+            Collections.reverse(listProjeto);
+    }
+
+    private Projeto[] getProjetosArray() {
+        Projeto[] arrayProjetos = new Projeto[listProjeto.size()];
+        int i = 0;
+        for (Projeto projeto : listProjeto) {
+            arrayProjetos[i++] = projeto;
+        }
+        return arrayProjetos;
+    }
 
 
     @Override
     protected void onResume() {
         super.onResume();
-        setAdapter();
         pegaProjetos();
 
     }
 
-    private void setAdapter() {
-        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, arrayString);
-        listaDeProjetosListView.setAdapter(adapter);
-    }
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-        HashMap<String, HashMap<String, Object>> map = (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
-        projetos = new HashMap<String, Projeto>();
-        String[] nomes = new String[map.size()];
-        int contador = 0;
+
+        pegaTodosProjetos(dataSnapshot);
+
+
+        configureAdapter(listProjeto);
+
+
+    }
+
+    public void configureAdapter(List<Projeto> listProjeto) {
+        adapter = new ListaProjetosAdapter(this, listProjeto, this);
+        listaProjetosRecyclerView.setAdapter(adapter);
+
+
+    }
+
+    private void pegaTodosProjetos(@NonNull DataSnapshot dataSnapshot) {
+        listProjeto = new ArrayList<>();
+        HashMap<String, HashMap<String, Object>> map =
+                (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
         for (String key : map.keySet()) {
             Projeto projeto = new Projeto(map.get(key));
-            projetos.put(key, projeto);
-            nomes[contador++] = key;
+            listProjeto.add(projeto);
         }
 
-        arrayString = nomes;
-        //onResume();
-        setAdapter();
-
+        ordenaMediaDecrescente();
 
     }
 
@@ -139,12 +166,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-        final String nomeProjeto = (String) adapterView.getItemAtPosition(i);
-        final Projeto projeto = projetos.get(nomeProjeto);
-        final ArrayAdapter<String> adapter = this.adapter;
+    @Override
+    public void onProjetoClick(int position) {
+        Projeto projeto = listProjeto.get(position);
+
         final ProgressDialog dialog = new ProgressDialog(this);
         dialog.setTitle("Aguarde");
         dialog.setMessage("Carregando . . .");
@@ -158,20 +184,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-        storageReference.child("projetos").child(projeto.getNome()).child("capa.png").getFile(localFile).addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
-                dialog.dismiss();
-                Intent intent = new Intent(MainActivity.this, PaginaProjetoActivity.class);
-                intent.putExtra("projeto", projeto);
-                intent.putExtra("imagemCapa", localFile);
-                startActivity(intent);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
+
+        storageReference.child("projetos")
+                .child(projeto.getNome())
+                .child("capa.png")
+                .getFile(localFile)
+                .addOnCompleteListener(new OnCompleteListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<FileDownloadTask.TaskSnapshot> task) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MainActivity.this, PaginaProjetoActivity.class);
+                        intent.putExtra("projeto", projeto);
+                        intent.putExtra("imagemCapa", localFile);
+                        startActivity(intent);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 dialog.dismiss();
             }
+
+
         });
 
 
