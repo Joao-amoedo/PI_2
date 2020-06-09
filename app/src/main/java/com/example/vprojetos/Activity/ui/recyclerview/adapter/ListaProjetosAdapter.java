@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -13,18 +15,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.vprojetos.R;
 import com.example.vprojetos.model.Projeto;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdapter.PorjetosViewHolder>{
+public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdapter.PorjetosViewHolder>
+implements Filterable {
 
-    private final List<Projeto> projetos;
-    private final Context context;
+    private  List<Projeto> projetos;
+    private  List<Projeto> projetosFull;
+    private  Context context;
     private OneProjetoListener mOneProjetoListener;
 
     public ListaProjetosAdapter(Context context, List<Projeto> projetos, OneProjetoListener oneProjetoListener){
         this.projetos = projetos;
         this.context = context;
         this.mOneProjetoListener = oneProjetoListener;
+        projetosFull = new ArrayList<Projeto>(projetos);
     }
 
     @NonNull
@@ -57,6 +63,44 @@ public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdap
         projetos.add(projeto);
         notifyDataSetChanged();
     }
+
+    @Override
+    public Filter getFilter() {
+        return exempleFilter;
+    }
+
+    private Filter exempleFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            List<Projeto> filteredList = new ArrayList<>();
+            if(constraint == null || constraint.length() == 0){
+                filteredList.addAll(projetosFull);
+            }else{
+                String filterPattern = constraint.toString().toLowerCase().trim();
+
+                for (Projeto projeto: projetosFull) {
+                    if(projeto.getNome().toLowerCase().contains(filterPattern)){
+                        filteredList.add(projeto);
+                    }
+
+                }
+            }
+
+            FilterResults results= new FilterResults();
+            results.values = filteredList;
+            return results;
+
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+            projetos = (List<Projeto>) filterResults.values;
+            //projetos.clear();
+            //projetos.addAll((List)  filterResults.values);
+
+            notifyDataSetChanged();
+        }
+    };
 
     class PorjetosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 

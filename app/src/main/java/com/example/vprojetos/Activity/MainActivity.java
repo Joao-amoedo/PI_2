@@ -8,8 +8,12 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.vprojetos.Activity.ui.recyclerview.adapter.ListaProjetosAdapter;
@@ -35,7 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends Activity implements View.OnClickListener,
+public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         ValueEventListener, ListaProjetosAdapter.OneProjetoListener {
 
     private Button btnCriarNovoProjeto, btnPegaProjetos, ordenaMediaDecrescenteButton;
@@ -208,5 +212,31 @@ public class MainActivity extends Activity implements View.OnClickListener,
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.example_menu, menu);
+
+        MenuItem searchItem = menu.findItem(R.id.idItemMenuMainSearch);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                adapter.getFilter().filter(s);
+
+
+                return false;
+            }
+        });
+
+        return true;
     }
 }
