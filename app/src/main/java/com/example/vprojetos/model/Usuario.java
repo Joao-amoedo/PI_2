@@ -174,13 +174,22 @@ public class Usuario implements Serializable {
         this.ultimoLogin = new Date().getTime();
     }
 
-    public void addDoacoes(String nome, double quantidade) {
-        if (doacoes.containsKey(nome)) {
-            Double aDouble = doacoes.get(nome);
-            doacoes.put(nome, aDouble + quantidade);
-        } else {
-            this.doacoes.put(nome, quantidade);
+    public void addDoacoes(String nome, double novoValor) {
+
+        if(doacoes.containsKey(nome)){
+            Object aDouble = doacoes.get(nome);
+            Double valor;
+            if(aDouble.getClass() == Long.class){
+                valor = ((Long) aDouble).doubleValue();
+            }else{
+                valor = (Double) aDouble;
+            }
+
+            doacoes.put(nome, novoValor + valor);
+        }else{
+            doacoes.put(nome, novoValor);
         }
+
     }
 
     public void addNotas(String nome, int nota) {

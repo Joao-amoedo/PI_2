@@ -57,7 +57,7 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
         quantiaTextView = findViewById(R.id.idEditTextPagamentoActivityQuantia);
         pagarButton = findViewById(R.id.idButtonPagamentoActivityPagar);
         Bundle extras = getIntent().getExtras();
-        Projeto projeto = (Projeto) extras.get("projeto");
+        projeto = (Projeto) extras.get("projeto");
 
         tituloProjetoTextView.setText(projeto.getNome());
         subtrairImageButton.setOnClickListener(this);

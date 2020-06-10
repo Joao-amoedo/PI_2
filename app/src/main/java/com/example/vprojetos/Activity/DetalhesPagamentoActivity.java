@@ -49,37 +49,29 @@ public class DetalhesPagamentoActivity extends AppCompatActivity {
         try {
 
 
-
             String state = response.getString("state");
-
-
-
-
-
-
             if(state.equals("approved")){
 
-                double quantidade = Double.parseDouble(quantidadePagamento);
+
+                Double quantidade = Double.parseDouble(quantidadePagamento);
                 String uid = Conexao.getFirebaseAuth().getUid();
 
 
-                Log.d("teste", "to aq");
-                Log.d("teste", state);
-
                 projeto.addDoacao(quantidade);
 
-
-
                 ProjetoDAO.atualizaProjeto(projeto);
-
                 Usuario.usuario.addDoacoes(projeto.getNome(), quantidade);
+
                 UsuarioDAO.updateDoacoes();
+
 
 
             }else{
                 statusTextView.setText("deu ruim");
             }
             idTextView.setText(response.getString(String.format("$%s", quantidadePagamento)));
+
+
 
             if(state.equals("approved")){
                 mensagem("Pagamento confirmado");

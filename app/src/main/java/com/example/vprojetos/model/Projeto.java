@@ -5,6 +5,7 @@ import android.util.Log;
 import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.enums.Categoria;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -53,7 +54,7 @@ public class Projeto implements Serializable {
         this.dinheiroArrecadadoComSucesso = Boolean.parseBoolean(map.get("dinheiroArrecadadoComSucesso").toString());
 
 
-        if (map.containsKey("usuariosDoacoes")){
+        if (map.containsKey("usuariosDoacoes")) {
             this.usuariosDoacoes = (HashMap<String, Double>) map.get("usuariosDoacoes");
             Log.i("teste", "achou as doações");
 
@@ -89,7 +90,7 @@ public class Projeto implements Serializable {
                 Log.i("comentariosHash", nomeUsuario.getClass() + "");
 
                 Comentario comentario = new Comentario(nomeUsuario, descricao, dataComentario);
-                if(this.comentariosHash != null)
+                if (this.comentariosHash != null)
                     this.comentariosHash.put(key, comentario);
 
             }
@@ -268,26 +269,29 @@ public class Projeto implements Serializable {
         return date;
     }
 
-    public void addDoacao(double novoValor) {
-        String uid = FirebaseAuth.getInstance().getUid();
+    public void addDoacao(Double novoValor) {
+
+
+        String uid = Conexao.getFirebaseAuth().getUid();
+
+
 
         if (usuariosDoacoes.containsKey(uid)) {
 
-            try{
-            Double valor;
-            Object aDouble = usuariosDoacoes.get(uid);
-            if(aDouble.getClass() == Long.class){
-                valor = ((Long) aDouble).doubleValue();
-            }else{
-                valor = (Double) aDouble;
-            }
+            try {
+                Double valor;
+                Object aDouble = usuariosDoacoes.get(uid);
+                if (aDouble.getClass() == Long.class) {
+                    valor = ((Long) aDouble).doubleValue();
+                } else {
+                    valor = (Double) aDouble;
+                }
 
-            usuariosDoacoes.put(uid, novoValor + valor);
+                usuariosDoacoes.put(uid, novoValor + valor);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 Log.d("teste.", e.getMessage());
             }
-
 
 
         } else {
@@ -295,6 +299,7 @@ public class Projeto implements Serializable {
         }
 
         dinheiroArrecadado += novoValor;
+
 
     }
 
@@ -308,12 +313,12 @@ public class Projeto implements Serializable {
     public float mediaNotas() {
 
         int soma = 0;
-        for(String key: notas.keySet()){
+        for (String key : notas.keySet()) {
             soma += notas.get(key);
         }
 
         float media = 0;
-        if(notas.size() > 0){
+        if (notas.size() > 0) {
             media = soma / notas.size();
         }
 
