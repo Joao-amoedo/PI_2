@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vprojetos.R;
@@ -32,14 +33,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
     private EditText campoEmail, campoSenha;
-    private Button botaoEntrar;
+    private Button entrarButton;
     private Usuario usuario;
 
     private FirebaseAuth autenticacao;
     ProgressDialog dialog;
+    private TextView esqueciSenhaTextView;
+    private TextView cadastrarTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,35 +54,21 @@ public class LoginActivity extends AppCompatActivity {
 
         inicializa();
 
-
-        listenerButton();
-
     }
 
-    private void listenerButton() {
-        botaoEntrar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                String textoEmail = campoEmail.getText().toString();
-                String textoSenha = campoSenha.getText().toString();
-
-                if (!textoEmail.isEmpty() & !textoSenha.isEmpty()) {
-                    dialog.show();
-                    validarLogin(textoEmail, textoSenha);
-                } else {
-                    mensagem("Preencha os dados");
-                }
-            }
-        });
-
-
-    }
 
     private void inicializa() {
         campoEmail = findViewById(R.id.idEditTextCadastroActivityEmail);
         campoSenha = findViewById(R.id.idEditTextCadastroActivitySenha);
-        botaoEntrar = findViewById(R.id.buttonEntrar);
+        entrarButton = findViewById(R.id.buttonEntrar);
+        esqueciSenhaTextView = findViewById(R.id.textView);
+        cadastrarTextView = findViewById(R.id.idTextViewLoginActivityCadastrar);
+
+
+        entrarButton.setOnClickListener(this);
+        cadastrarTextView.setOnClickListener(this);
+        esqueciSenhaTextView.setOnClickListener(this);
 
         dialog = new ProgressDialog(this);
         dialog.setTitle("Aguarde");
@@ -165,4 +154,34 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if (view == entrarButton){
+            entrar();
+        }else if(view == cadastrarTextView){
+            cadastrar();
+        }else if(view == esqueciSenhaTextView){
+            esqueciSenha();
+        }
+    }
+
+    private void esqueciSenha() {
+        startActivity(new Intent(this, RecuperarSenhaActivity.class));
+    }
+
+    private void cadastrar() {
+        startActivity(new Intent(this, CadastroActivity.class));
+    }
+
+    private void entrar() {
+        String textoEmail = campoEmail.getText().toString();
+        String textoSenha = campoSenha.getText().toString();
+
+        if (!textoEmail.isEmpty() & !textoSenha.isEmpty()) {
+            dialog.show();
+            validarLogin(textoEmail, textoSenha);
+        } else {
+            mensagem("Preencha os dados");
+        }
+    }
 }
