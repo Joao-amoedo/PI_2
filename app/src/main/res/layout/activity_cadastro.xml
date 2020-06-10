@@ -110,7 +110,7 @@
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
         android:layout_marginBottom="64dp"
-        android:backgroundTint="@android:color/holo_red_dark"
+        android:backgroundTint="@color/colorPrimaryDark"
         android:text="Cadastrar"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
