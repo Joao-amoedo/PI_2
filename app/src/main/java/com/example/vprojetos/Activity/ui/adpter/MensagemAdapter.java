@@ -5,6 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.vprojetos.R;
+import com.example.vprojetos.model.Mensagem;
+
 import java.util.List;
 
 public class MensagemAdapter {

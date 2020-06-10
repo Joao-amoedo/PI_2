@@ -2,9 +2,10 @@ package com.example.vprojetos.callback;
 
 import android.widget.Toast;
 
-import com.example.vprojetos.activity.MainActivity;
-import com.example.vprojetos.modelo.Mensagem;
-import com.example.vprojetos.modelo.RespostaServidor;
+
+import com.example.vprojetos.model.Mensagem;
+import com.example.vprojetos.model.RespostaServidor;
+
 import com.example.vprojetos.Activity.ChatActivity;
 
 import retrofit2.Call;
