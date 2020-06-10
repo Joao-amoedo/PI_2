@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.vprojetos.R;
@@ -15,7 +17,7 @@ import org.json.JSONObject;
 public class PaymentDetailsActivity extends AppCompatActivity {
 
     TextView idTextView, quantiaTextView, statusTextView;
-
+    ImageView ivSucesso;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +27,7 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         inicializa();
         Intent intent = getIntent();
 
+
         try {
 
             JSONObject detalhesPagamento = new JSONObject(intent.getStringExtra("DetalhesPagamento"));
@@ -33,7 +36,12 @@ public class PaymentDetailsActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-
+        ivSucesso.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                voltarTelaPrincipal();
+            }
+        });
     }
 
     private void showDetails(JSONObject response, String quantidadePagamento) {
@@ -50,5 +58,13 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         idTextView = findViewById(R.id.idTextViewPaymentDetailsActivityId);
         quantiaTextView = findViewById(R.id.idTextViewPaymentDetailsActivityQuantia);
         statusTextView = findViewById(R.id.idTextViewPaymentDetailsActivityStatus);
+        ivSucesso = findViewById(R.id.ivSucesso);
     }
+
+    public void voltarTelaPrincipal(){
+
+        startActivity(new Intent(this,MainActivity.class));
+        finish();
+    }
+
 }
