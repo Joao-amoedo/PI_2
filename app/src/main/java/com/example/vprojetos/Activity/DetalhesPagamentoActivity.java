@@ -8,13 +8,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vprojetos.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PaymentDetailsActivity extends AppCompatActivity {
+public class DetalhesPagamentoActivity extends AppCompatActivity {
 
     TextView idTextView, quantiaTextView, statusTextView;
     ImageView ivSucesso;
@@ -54,12 +55,14 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         }
     }
 
+
     private void inicializa() {
         idTextView = findViewById(R.id.idTextViewPaymentDetailsActivityId);
         quantiaTextView = findViewById(R.id.idTextViewPaymentDetailsActivityQuantia);
         statusTextView = findViewById(R.id.idTextViewPaymentDetailsActivityStatus);
         ivSucesso = findViewById(R.id.ivSucesso);
     }
+
 
     public void voltarTelaPrincipal(){
 
