@@ -143,9 +143,16 @@ public class ProjetoDAO {
 
     private static void gravaProjetoNoBanco(@NonNull DataSnapshot dataSnapshot, Projeto projeto, Activity activity, ProgressDialog progressDialog) {
         dataSnapshot.child(projeto.getNome()).getRef().setValue(projeto);
-        Usuario.usuario.addProjetoCriado(projeto.getNome());
         Log.i("estou aq", "Estou aq");
-        UsuarioDAO.saveUsuario();
+
+        Usuario.usuario.addProjetoCriado(projeto.getNome());
+
+        Conexao
+                .getDatabase()
+                .child("usuarios")
+                .child(projeto.getUidAutor())
+                .child("projetosCriados")
+                .setValue(Usuario.usuario.getProjetosCriados());
 
         progressDialog.dismiss();
         mensagem(activity, "Projeto criado com sucesso");
@@ -202,5 +209,17 @@ public class ProjetoDAO {
             }
         });
     }
+
+    public static void atualizaProjeto(Projeto projeto) {
+        Conexao
+                .getDatabase()
+                .child("projetos")
+                .child(projeto.getNome())
+                .setValue(projeto);
+
+    }
+
+
+
 
 }

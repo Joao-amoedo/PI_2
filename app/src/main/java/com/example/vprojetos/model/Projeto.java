@@ -53,8 +53,11 @@ public class Projeto implements Serializable {
         this.dinheiroArrecadadoComSucesso = Boolean.parseBoolean(map.get("dinheiroArrecadadoComSucesso").toString());
 
 
-        if (map.containsKey("usuariosDoacoes"))
+        if (map.containsKey("usuariosDoacoes")){
             this.usuariosDoacoes = (HashMap<String, Double>) map.get("usuariosDoacoes");
+            Log.i("teste", "achou as doações");
+
+        }
         if (map.containsKey("notas")) {
             HashMap<String, Long> notas = (HashMap<String, Long>) map.get("notas");
             HashMap<String, Integer> notasInteger = new HashMap<>();
@@ -265,18 +268,34 @@ public class Projeto implements Serializable {
         return date;
     }
 
-    public void recebeDoacao(double novoValor) {
-        if (projetoConcluido) // Projetos concluidos não podem receber doação
-            return;
-
+    public void addDoacao(double novoValor) {
         String uid = FirebaseAuth.getInstance().getUid();
 
         if (usuariosDoacoes.containsKey(uid)) {
-            Double valorDoadoDoUsuario = usuariosDoacoes.get(uid);
-            usuariosDoacoes.put(uid, novoValor + valorDoadoDoUsuario);
+
+            try{
+            Double valor;
+            Object aDouble = usuariosDoacoes.get(uid);
+            if(aDouble.getClass() == Long.class){
+                valor = ((Long) aDouble).doubleValue();
+            }else{
+                valor = (Double) aDouble;
+            }
+
+            usuariosDoacoes.put(uid, novoValor + valor);
+
+            }catch (Exception e){
+                Log.d("teste.", e.getMessage());
+            }
+
+
+
         } else {
             usuariosDoacoes.put(uid, novoValor);
         }
+
+        dinheiroArrecadado += novoValor;
+
     }
 
     public void recebeAvaliacao(int nota) {
@@ -298,6 +317,9 @@ public class Projeto implements Serializable {
             media = soma / notas.size();
         }
 
+
         return media;
     }
+
+
 }

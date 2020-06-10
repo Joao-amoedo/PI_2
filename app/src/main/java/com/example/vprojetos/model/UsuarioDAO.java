@@ -82,4 +82,13 @@ public class UsuarioDAO {
     public static void updateUltimoLogin() {
         getTree().child("ultimoLogin").setValue(Usuario.usuario.getUltimoLogin());
     }
+
+    public static void updateDoacoes() {
+        getTree().child("doacoes").setValue(Usuario.usuario.getDoacoes());
+    }
+
+    public static void updateNotas() {
+        getTree().child("notas").setValue(Usuario.usuario.getNotas());
+
+    }
 }
