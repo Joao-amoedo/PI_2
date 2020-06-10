@@ -3,7 +3,6 @@ package com.example.vprojetos.Activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,10 +14,9 @@ import android.widget.Toast;
 
 import com.example.vprojetos.R;
 import com.example.vprojetos.config.ConfigPaypal;
+import com.example.vprojetos.model.Projeto;
 import com.paypal.android.sdk.payments.PayPalConfiguration;
 import com.paypal.android.sdk.payments.PayPalPayment;
-import com.paypal.android.sdk.payments.PayPalPaymentDetails;
-import com.paypal.android.sdk.payments.PayPalProfileSharingActivity;
 import com.paypal.android.sdk.payments.PayPalService;
 import com.paypal.android.sdk.payments.PaymentActivity;
 import com.paypal.android.sdk.payments.PaymentConfirmation;
@@ -30,6 +28,8 @@ import java.math.BigDecimal;
 public class PagamentoActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int PAYPAL_REQUEST_CODE = 7171;
+    private Projeto projeto;
+
     PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) //Usar sandbox enquanto for teste, depois mudar para produção
             //.defaultUserEmail("sb-ngudt1856920@personal.example.com")
@@ -68,6 +68,11 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
         copiaEmailButton = findViewById(R.id.idButtonPagamentoActivityCopiaEmail);
         pagarButton.setOnClickListener(this);
         copiaEmailButton.setOnClickListener(this);
+
+        Bundle extras = getIntent().getExtras();
+        projeto = (Projeto) extras.get("projeto");
+
+
     }
 
     @Override
@@ -104,9 +109,12 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
-                        startActivity(new Intent(this, PaymentDetailsActivity.class)
+                        Intent intent = new Intent(this, DetalhesPagamentoActivity.class)
                                 .putExtra("DetalhesPagamento", paymentDetails)
-                                .putExtra("QuantidadePagamento", quantia));
+                                .putExtra("projeto", projeto)
+                                .putExtra("QuantidadePagamento", quantia);
+                        startActivity(intent);
+                        finish();
 
                     } catch (JSONException e) {
                         e.printStackTrace();

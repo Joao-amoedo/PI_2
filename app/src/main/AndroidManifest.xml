@@ -14,7 +14,7 @@
         <activity android:name=".Activity.PaginaUsuarioActivity"></activity>
         <activity android:name=".PaginaCriadorActivity" />
         <activity android:name=".Activity.DescricaoProjetoActivity" />
-        <activity android:name=".Activity.PaymentDetailsActivity" />
+        <activity android:name=".Activity.DetalhesPagamentoActivity" />
         <activity android:name=".Activity.PagamentoActivity" />
         <activity android:name=".Activity.ComentariosActivity" />
         <activity android:name=".Activity.PaginaProjetoActivity" />

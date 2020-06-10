@@ -200,6 +200,7 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
 
         } else if (view == contribuirButton) {
             Intent intent = new Intent(this, PagamentoActivity.class);
+            intent.putExtra("projeto", projeto);
             startActivity(intent);
         } else if (view == layoutComentariosLinearLayout) {
             startActivityComentarios();

@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.vprojetos.R;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class PaymentDetailsActivity extends AppCompatActivity {
+public class DetalhesPagamentoActivity extends AppCompatActivity {
 
     TextView idTextView, quantiaTextView, statusTextView;
 
@@ -46,9 +47,11 @@ public class PaymentDetailsActivity extends AppCompatActivity {
         }
     }
 
+
     private void inicializa() {
         idTextView = findViewById(R.id.idTextViewPaymentDetailsActivityId);
         quantiaTextView = findViewById(R.id.idTextViewPaymentDetailsActivityQuantia);
         statusTextView = findViewById(R.id.idTextViewPaymentDetailsActivityStatus);
     }
+
 }
