@@ -73,6 +73,7 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
         projeto = (Projeto) extras.get("projeto");
 
 
+
     }
 
     @Override
@@ -109,6 +110,7 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
+
                         Intent intent = new Intent(this, DetalhesPagamentoActivity.class)
                                 .putExtra("DetalhesPagamento", paymentDetails)
                                 .putExtra("projeto", projeto)

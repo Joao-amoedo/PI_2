@@ -78,7 +78,6 @@ public class Usuario implements Serializable {
     }
 
 
-
     public List<String> getProjetosCriados() {
         return projetosCriados;
     }
@@ -173,6 +172,19 @@ public class Usuario implements Serializable {
 
     public void setUltimoLogin() {
         this.ultimoLogin = new Date().getTime();
+    }
+
+    public void addDoacoes(String nome, double quantidade) {
+        if (doacoes.containsKey(nome)) {
+            Double aDouble = doacoes.get(nome);
+            doacoes.put(nome, aDouble + quantidade);
+        } else {
+            this.doacoes.put(nome, quantidade);
+        }
+    }
+
+    public void addNotas(String nome, int nota) {
+        this.notas.put(nome, nota);
     }
 }
 
