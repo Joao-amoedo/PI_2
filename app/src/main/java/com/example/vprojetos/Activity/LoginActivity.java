@@ -37,18 +37,19 @@ import java.util.HashMap;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText campoEmail, campoSenha;
+    private TextView campoCadastrar;
     private Button botaoEntrar;
     private Usuario usuario;
     private FirebaseAuth autenticacao;
     private TextView recuperarSenha;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        getSupportActionBar().hide(); //Esconde a Action Bar
+        //Método que oculta a Action Bar
+        getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         inicializa();
@@ -62,7 +63,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this,RecuperarSenhaActivity.class);
                 startActivity(intent);
+            }
+        });
 
+        campoCadastrar = findViewById(R.id.idcadastrar);
+        campoCadastrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abrirTelaCadastro();
             }
         });
     }
@@ -132,6 +140,11 @@ public class LoginActivity extends AppCompatActivity {
 
     public void abrirTelaPrincipal(){
         startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    public void abrirTelaCadastro(){
+        startActivity(new Intent(this, CadastroActivity.class));
         finish();
     }
 

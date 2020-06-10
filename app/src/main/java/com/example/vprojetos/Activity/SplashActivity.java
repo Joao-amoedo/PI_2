@@ -16,13 +16,14 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        getSupportActionBar().hide(); //Esconde a Action Bar
+        //Metódo que oculta a Action Bar
+        getSupportActionBar().hide();
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(getBaseContext(),InitialActivity.class));
+                startActivity(new Intent(getBaseContext(),LoginActivity.class));
                 finish();
             }
         }, 3000);
