@@ -29,10 +29,10 @@ public class DetalhesPagamentoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_details);
 
-
         inicializa();
         Intent intent = getIntent();
         projeto = (Projeto) intent.getExtras().get("projeto");
+
 
         try {
 
@@ -55,15 +55,19 @@ public class DetalhesPagamentoActivity extends AppCompatActivity {
 
 
 
-            Log.d("teste", "to aq");
-            Log.d("teste", state);
 
 
             if(state.equals("approved")){
 
                 double quantidade = Double.parseDouble(quantidadePagamento);
                 String uid = Conexao.getFirebaseAuth().getUid();
+
+
+                Log.d("teste", "to aq");
+                Log.d("teste", state);
+
                 projeto.addDoacao(quantidade);
+
 
 
                 ProjetoDAO.atualizaProjeto(projeto);
@@ -88,7 +92,12 @@ public class DetalhesPagamentoActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+
     }
+
+
 
     private void  mensagem(Object s){
         Toast.makeText(this, s.toString(), Toast.LENGTH_SHORT).show();

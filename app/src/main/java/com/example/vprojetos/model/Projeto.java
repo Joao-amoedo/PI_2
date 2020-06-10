@@ -269,13 +269,11 @@ public class Projeto implements Serializable {
     }
 
     public void addDoacao(double novoValor) {
-        if (projetoConcluido) // Projetos concluidos não podem receber doação
-            return;
-
         String uid = FirebaseAuth.getInstance().getUid();
 
         if (usuariosDoacoes.containsKey(uid)) {
 
+            try{
             Double valor;
             Object aDouble = usuariosDoacoes.get(uid);
             if(aDouble.getClass() == Long.class){
@@ -285,6 +283,11 @@ public class Projeto implements Serializable {
             }
 
             usuariosDoacoes.put(uid, novoValor + valor);
+
+            }catch (Exception e){
+                Log.d("teste.", e.getMessage());
+            }
+
 
 
         } else {
