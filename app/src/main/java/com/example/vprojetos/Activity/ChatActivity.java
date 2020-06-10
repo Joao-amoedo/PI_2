@@ -1,7 +1,6 @@
 package com.example.vprojetos.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.example.vprojetos.Activity.ui.adpter.MensagemAdapter;
 import com.example.vprojetos.R;
 import com.example.vprojetos.callback.EnviarMensagemCallback;
@@ -17,10 +15,8 @@ import com.example.vprojetos.config.ChatService;
 import com.example.vprojetos.model.Mensagem;
 import com.example.vprojetos.model.RespostaServidor;
 import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

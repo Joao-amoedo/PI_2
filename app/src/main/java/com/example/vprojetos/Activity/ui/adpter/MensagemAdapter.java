@@ -3,21 +3,18 @@ package com.example.vprojetos.Activity.ui.adpter;
 import android.app.Activity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.vprojetos.R;
 import com.example.vprojetos.model.Mensagem;
 
-import java.util.List;
-
-public class MensagemAdapter {
-
+import java.util.List;public class MensagemAdapter extends BaseAdapter {
 
     private List<Mensagem> mensagens;
     private Activity activity;
     private int idDoCliente;
     private View linha;
-    private TextView texto;
+    private  TextView texto;
 
     public MensagemAdapter(int idDoCliente, List<Mensagem> mensagens, Activity activity) {
         this.mensagens = mensagens;
@@ -55,5 +52,4 @@ public class MensagemAdapter {
 
         return linha;
     }
-
 }

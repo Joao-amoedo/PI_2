@@ -1,16 +1,14 @@
 package com.example.vprojetos.callback;
 
 import android.widget.Toast;
-
 import com.example.vprojetos.Activity.ChatActivity;
 import com.example.vprojetos.model.Mensagem;
 import com.example.vprojetos.model.RespostaServidor;
-import com.google.android.gms.common.api.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-import androidx.recyclerview.widget.SortedList;
-import okhttp3.Call;
-
-public class EnviarMensagemCallback implements SortedList.Callback<RespostaServidor> {
+public class EnviarMensagemCallback implements Callback<RespostaServidor> {
     private final  int  VIEW_MY_MESSAGE = 1;
     private  final int  VIEW_BOT_MESSAGE = 2;
 

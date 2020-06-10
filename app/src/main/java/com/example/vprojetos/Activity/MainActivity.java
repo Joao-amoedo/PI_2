@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Intent intent = new Intent(this, CadastroNovoProjetoActivity.class);
             startActivity(intent);
         }else if(view == chatBotImageView){
+            Intent intent = new Intent(MainActivity.this,ChatActivity.class);
+            startActivity(intent);
 
         }else if(view == paginaUsuarioImageView){
             startActivity(new Intent(this, PaginaUsuarioActivity.class));
