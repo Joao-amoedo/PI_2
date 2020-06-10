@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PaginaCriadorActivity">
+    tools:context=".Activity.PaginaUsuarioActivity">
 
 
     <ImageView
@@ -72,14 +72,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data da criação da conta: " />
+                android:text="email: " />
 
             <TextView
                 android:id="@+id/idTextViewPaginaUsuarioActivityEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="01/01/2020" />
+                android:text="xxx@xxx.com" />
 
 
         </LinearLayout>
@@ -99,14 +99,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Última conexão" />
+                android:text="CPF" />
 
             <TextView
                 android:id="@+id/idTextViewPaginaUsuarioActivityCPF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="30/05/2020" />
+                android:text="000.000.000-00" />
 
         </LinearLayout>
 

@@ -70,12 +70,14 @@ public class Usuario implements Serializable {
             }
         }
 
-        if(map.containsKey("ultimoLogin")){
+        if (map.containsKey("ultimoLogin")) {
             this.ultimoLogin = (Long) map.get("ultimoLogin");
         }
 
 
     }
+
+
 
     public List<String> getProjetosCriados() {
         return projetosCriados;

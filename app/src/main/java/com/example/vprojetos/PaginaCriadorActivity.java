@@ -1,10 +1,7 @@
 package com.example.vprojetos;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.vprojetos.model.Usuario;
@@ -36,13 +33,13 @@ public class PaginaCriadorActivity extends Activity {
     }
 
     private void inicializa() {
-        nomeTextView = findViewById(R.id.idTextViewPaginaCriadorActivityNome);
-        bioTextView = findViewById(R.id.idTextViewPaginaCriadorActivityBio);
-        enderecoTextView = findViewById(R.id.idTextViewPaginaCriadorActivityEndereco);
-        dataCriacaoContaTextView = findViewById(R.id.idTextViewPaginaCriadorActivityDataCriacaoConta);
-        quantidadeContribuicoesTextView = findViewById(R.id.idTextViewPaginaCriadorActivityQuantidadeContribuicoes);
-        quantidadeProjetosCriadosTextView = findViewById(R.id.idTextViewPaginaCriadorActivityQuantidadeProjetosCriados);
-        TextView dataUltimaConexaoTextView =  findViewById(R.id.idTextViewPaginaCriadorActivityDataUltimaConexao);
+        nomeTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityNome);
+        bioTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityBio);
+        enderecoTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityEndereco);
+        dataCriacaoContaTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityEmail);
+        quantidadeContribuicoesTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityQuantidadeContribuicoes);
+        quantidadeProjetosCriadosTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityQuantidadeProjetosCriados);
+        TextView dataUltimaConexaoTextView =  findViewById(R.id.idTextViewPaginaUsuarioActivityCPF);
 
 
 

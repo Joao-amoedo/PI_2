@@ -18,8 +18,7 @@ import com.example.vprojetos.model.Projeto;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdapter.PorjetosViewHolder>
-implements Filterable {
+public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdapter.PorjetosViewHolder> implements Filterable {
 
     private  List<Projeto> projetos;
     private  List<Projeto> projetosFull;
@@ -105,17 +104,19 @@ implements Filterable {
     class PorjetosViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private final TextView categoria;
-        private final TextView descricao;
         private final TextView nota;
         private final TextView titulo;
         OneProjetoListener oneProjetoListener;
+        private final TextView arrecadado;
+        private final TextView doadores;
 
         public PorjetosViewHolder(@NonNull View itemView, OneProjetoListener oneProjetoListener) {
             super(itemView);
-            categoria = itemView.findViewById(R.id.idTextViewListaProjetoCategoria);
-            descricao = itemView.findViewById(R.id.idTextViewListaProjetoDescricao);
-            nota = itemView.findViewById(R.id.idTextViewListaProjetoNota);
+            categoria = itemView.findViewById(R.id.idTextViewItemProjetoCategoria);
+            nota = itemView.findViewById(R.id.idTextViewItemProjetoNota);
             titulo = itemView.findViewById(R.id.idTextViewListaProjetoTitulo);
+            arrecadado = itemView.findViewById(R.id.idTextViewItemProjetoArrecadado);
+            doadores = itemView.findViewById(R.id.idTextViewItemProjetoDoadores);
             this.oneProjetoListener = oneProjetoListener;
 
             itemView.setOnClickListener(this);
@@ -128,9 +129,14 @@ implements Filterable {
 
         private void preencheCampo(Projeto projeto){
             categoria.setText(projeto.getCategoria().toString());
-            descricao.setText(projeto.getDescricaoDoProjeto());
             nota.setText(projeto.mediaNotas() + "");
             titulo.setText(projeto.getNome());
+
+            double porcentagem = projeto.getDinheiroArrecadado() / projeto.getDinheiroAlvo();
+            arrecadado.setText(porcentagem + "%");
+            doadores.setText(projeto.getUsuariosDoacoes().size() + "");
+
+
 
         }
 

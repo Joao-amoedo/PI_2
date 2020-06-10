@@ -74,7 +74,7 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
         inicializaViews();
         inicializaListeners();
         inicializaCapa();
-        inicializaTextos();
+        //inicializaTextos();
         inicializaNotas();
 
     }
@@ -87,6 +87,12 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
         for (ImageView estrela : arrayListEstrelasImageView) {
             estrela.setOnClickListener(this);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        inicializaTextos();
     }
 
     private void inicializaViews() {
@@ -188,38 +194,13 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         if (view == layoutAutorConstraintLayout) {
-            final String uidAutor = projeto.getUidAutor();
-
-            Conexao.getDatabase().child("usuarios").child(uidAutor).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    HashMap<String, Object> map =(HashMap<String, Object>) dataSnapshot.getValue();
-                    Usuario usuario = new Usuario(map);
-
-                    Intent intent = new Intent(PaginaProjetoActivity.this, PaginaCriadorActivity.class);
-                    intent.putExtra("usuario", usuario);
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-
-            //startActivity(new Intent(this, PaginaCriadorActivity.class));
-            //TODO levar para a pagina do autor
+            carregaPaginaAutor();
         } else if (view == layoutDescricaoProjetoLinearLayout) {
-            ProgressDialog dialog = new ProgressDialog(this);
-            dialog.setTitle("Aguarde");
-            dialog.setMessage("Carregando . . .");
-            dialog.show();
-            pegaImagensSecundarias(1, dialog);
-
+            carregaDescricaoProjeto();
 
         } else if (view == contribuirButton) {
-            mensagem("Levar para pagina do pagamento");
-            //TODO construir pagina do pagamento
+            Intent intent = new Intent(this, PagamentoActivity.class);
+            startActivity(intent);
         } else if (view == layoutComentariosLinearLayout) {
             startActivityComentarios();
             //TODO construir pagina de comentarios
@@ -228,6 +209,38 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
         }
 
 
+    }
+
+    private void carregaDescricaoProjeto() {
+        ProgressDialog dialog = new ProgressDialog(this);
+        dialog.setTitle("Aguarde");
+        dialog.setMessage("Carregando . . .");
+        dialog.show();
+        pegaImagensSecundarias(1, dialog);
+    }
+
+    private void carregaPaginaAutor() {
+        final String uidAutor = projeto.getUidAutor();
+
+        Conexao.getDatabase().child("usuarios").child(uidAutor).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                HashMap<String, Object> map =(HashMap<String, Object>) dataSnapshot.getValue();
+                Usuario usuario = new Usuario(map);
+
+                Intent intent = new Intent(PaginaProjetoActivity.this, PaginaCriadorActivity.class);
+                intent.putExtra("usuario", usuario);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //startActivity(new Intent(this, PaginaCriadorActivity.class));
+        //TODO levar para a pagina do autor
     }
 
     private void startActivityComentarios() {

@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +11,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -42,25 +41,24 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener,
         ValueEventListener, ListaProjetosAdapter.OneProjetoListener {
 
-    private Button btnCriarNovoProjeto, btnPegaProjetos, ordenaMediaDecrescenteButton;
     private ListaProjetosAdapter adapter;
 
-    private String[] arrayString = {};
     private File localFile;
     private List<File> arrayImagensSecundarias;
     private List<Projeto> listProjeto;
     private RecyclerView listaProjetosRecyclerView;
+    private ImageView paginaUsuarioImageView;
+    private ImageView criarProjetoImageView;
+    private ImageView chatBotImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         inicializa();
 
 
     }
-
 
     private void pegaProjetos() {
 
@@ -70,15 +68,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void inicializa() {
 
-        btnCriarNovoProjeto = findViewById(R.id.idButtonMainActivityCriarNovoProjeto);
-        btnPegaProjetos = findViewById(R.id.idButtonMainActivityPegaProjetos);
-        ordenaMediaDecrescenteButton = findViewById(R.id.idButtonMainActivityOrdenaMediaDecrescente);
-        listaProjetosRecyclerView = findViewById(R.id.idRecyclerViewMainActivityListaDeProjetos);
+        chatBotImageView = findViewById(R.id.idImageViewMainActivityChatBot);
+        criarProjetoImageView = findViewById(R.id.idImageViewMainActivityCriarProjeto);
+        paginaUsuarioImageView = findViewById(R.id.idImageViewPaginaCriadorActivityImagem);
 
+
+
+        findViewById(R.id.idImageViewMainActivityChatBot);
+        listaProjetosRecyclerView = findViewById(R.id.idRecyclerViewMainActivityListaDeProjetos);
         arrayImagensSecundarias = new ArrayList<>();
-        btnCriarNovoProjeto.setOnClickListener(this);
-        btnPegaProjetos.setOnClickListener(this);
-        ordenaMediaDecrescenteButton.setOnClickListener(this);
+
+
+        chatBotImageView.setOnClickListener(this);
+        criarProjetoImageView.setOnClickListener(this);
+        paginaUsuarioImageView.setOnClickListener(this);
 
 
     }
@@ -89,16 +92,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == btnCriarNovoProjeto) {
+        if (view == criarProjetoImageView) {
             Intent intent = new Intent(this, CadastroNovoProjetoActivity.class);
             startActivity(intent);
-        } else if (view == btnPegaProjetos) {
-            pegaProjetos();
-        } else if (view == ordenaMediaDecrescenteButton) {
+        }else if(view == chatBotImageView){
 
-            ordenaMediaDecrescente();
-
-
+        }else if(view == paginaUsuarioImageView){
+            startActivity(new Intent(this, PaginaUsuarioActivity.class));
         }
     }
 
@@ -125,14 +125,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return arrayProjetos;
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
         pegaProjetos();
 
     }
-
 
     @Override
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -167,9 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onCancelled(@NonNull DatabaseError databaseError) {
-
     }
-
 
     @Override
     public void onProjetoClick(int position) {

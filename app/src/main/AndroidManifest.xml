@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PaginaCriadorActivity"></activity>
+        <activity android:name=".Activity.PaginaUsuarioActivity"></activity>
+        <activity android:name=".PaginaCriadorActivity" />
         <activity android:name=".Activity.DescricaoProjetoActivity" />
         <activity android:name=".Activity.PaymentDetailsActivity" />
         <activity android:name=".Activity.PagamentoActivity" />
