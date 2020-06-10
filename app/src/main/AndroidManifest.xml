@@ -18,7 +18,6 @@
         <activity android:name=".Activity.TesteImagemActivity" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".Activity.EditarPerfilActivity" />
-        <activity android:name=".Activity.InitialActivity" />
         <activity android:name=".Activity.RecuperarSenhaActivity" />
         <activity android:name=".Activity.LoginActivity" />
         <activity android:name=".Activity.CadastroActivity" />
