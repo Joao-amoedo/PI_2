@@ -34,7 +34,7 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
     private Spinner spinnerCategoria;
     private TextView categoriaTextView;
     private EditText nomeProjetoEditText, valorDesejadoEditText, descricaoProjetoEditText;
-    private Button cadastroButton, escolheImagemCapaButton, adicionaImagemButton;
+    private Button cadastroButton, escolheImagemCapaButton, adicionaImagemButton, mapsButton;
     private boolean imagemSelecionada = false;
 
 
@@ -75,12 +75,14 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
         cadastroButton = findViewById(R.id.idButtonCadastroNovoProjetoCadastrar);
         escolheImagemCapaButton = findViewById(R.id.idButtonCadastroNovoProjetoEscolheImagemCapa);
         adicionaImagemButton = findViewById(R.id.idButtonCadastroNovoProjetoAdicionaImagem);
+        mapsButton = findViewById(R.id.idButtonGoogleMaps);
 
 
         escolheImagemCapaButton.setOnClickListener(this);
         cadastroButton.setOnClickListener(this);
         adicionaImagemButton.setOnClickListener(this);
         arrayImagens = new ArrayList<>();
+        mapsButton.setOnClickListener(this);
 
         setAdapter();
     }
@@ -101,6 +103,9 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
         Toast.makeText(this, s.toString(), Toast.LENGTH_SHORT).show();
     }
 
+
+
+
     @Override
     public void onClick(View view) {
         if (view == cadastroButton) {
@@ -120,6 +125,10 @@ public class CadastroNovoProjetoActivity extends AppCompatActivity implements Ad
         } else if(view == adicionaImagemButton){
             adicionaImagemSecundaria = true;
             pedePermissao();
+        }else if(view == mapsButton){
+
+            Intent intent = new Intent(CadastroNovoProjetoActivity.this,MapsActivity.class);
+            startActivity(intent);
         }
 
     }
