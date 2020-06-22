@@ -22,6 +22,7 @@ import com.example.vprojetos.config.Conexao;
 import com.example.vprojetos.model.Projeto;
 import com.example.vprojetos.model.ProjetoDAO;
 import com.example.vprojetos.model.Usuario;
+import com.example.vprojetos.model.UsuarioDAO;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -36,12 +37,13 @@ import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class PaginaProjetoActivity extends Activity implements View.OnClickListener {
+public class PaginaProjetoActivity extends Activity implements View.OnClickListener, Serializable {
     private TextView tituloDoProjetoTextView;
     private TextView nomeAutorProjetoTextView;
     private TextView descricaoProjetoTextView;
@@ -147,6 +149,9 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
     private void inicializaNotas() {
         String uid = Conexao.getFirebaseAuth().getUid();
         HashMap<String, Integer> notas = projeto.getNotas();
+
+
+
         if (notas.containsKey(uid)) {
             Integer nota = notas.get(uid) - 1;
             ImageView estrela = arrayListEstrelasImageView.get(nota);
@@ -312,5 +317,8 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
     private void setNota(int nota) {
         projeto.adicionarNota(Conexao.getFirebaseAuth().getUid(), nota);
         ProjetoDAO.atualizaNotas( projeto);
+        Usuario.usuario.addNotas(projeto.getNome(), nota);
+        UsuarioDAO.updateNotas();
+
     }
 }

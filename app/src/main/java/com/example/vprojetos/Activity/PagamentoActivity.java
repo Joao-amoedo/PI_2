@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vprojetos.R;
@@ -33,11 +35,14 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
     PayPalConfiguration config = new PayPalConfiguration()
             .environment(PayPalConfiguration.ENVIRONMENT_SANDBOX) //Usar sandbox enquanto for teste, depois mudar para produção
             //.defaultUserEmail("sb-ngudt1856920@personal.example.com")
-            .clientId(ConfigPaypal.PAYPAL_CLIENT_ID)
-            ;
-    Button pagarButton, copiaEmailButton;
-    EditText quantiaEditText;
+            .clientId(ConfigPaypal.PAYPAL_CLIENT_ID);
+    TextView quantiaEditText;
     String quantia = "";
+    private TextView tituloProjetoTextView;
+    private ImageButton subtrairImageButton;
+    private ImageButton adicionarImageButton;
+    private TextView quantiaTextView;
+    private Button pagarButton;
 
 
     @Override
@@ -45,13 +50,30 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pagamento);
 
+
+        tituloProjetoTextView = findViewById(R.id.idTextviewPagamentoActivityTituloProjeto);
+        subtrairImageButton = findViewById(R.id.idButtonPagamentoActivitySubtrair);
+        adicionarImageButton = findViewById(R.id.idButtonPagamentoActivityAdicionar);
+        quantiaTextView = findViewById(R.id.idEditTextPagamentoActivityQuantia);
+        pagarButton = findViewById(R.id.idButtonPagamentoActivityPagar);
+        Bundle extras = getIntent().getExtras();
+        projeto = (Projeto) extras.get("projeto");
+
+        tituloProjetoTextView.setText(projeto.getNome());
+        subtrairImageButton.setOnClickListener(this);
+        adicionarImageButton.setOnClickListener(this);
+        pagarButton.setOnClickListener(this);
+
+
+
         // Inicializando Serviço do Paypal
+
 
         Intent intent = new Intent(this, PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
         startService(intent);
 
-        inicializa();
+        //inicializa();
 
     }
 
@@ -65,9 +87,9 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
     private void inicializa() {
         pagarButton = findViewById(R.id.idButtonPagamentoActivityPagar);
         quantiaEditText = findViewById(R.id.idEditTextPagamentoActivityQuantia);
-        copiaEmailButton = findViewById(R.id.idButtonPagamentoActivityCopiaEmail);
+        //copiaEmailButton = findViewById(R.id.idButtonPagamentoActivityCopiaEmail);
         pagarButton.setOnClickListener(this);
-        copiaEmailButton.setOnClickListener(this);
+        //copiaEmailButton.setOnClickListener(this);
 
         Bundle extras = getIntent().getExtras();
         projeto = (Projeto) extras.get("projeto");
@@ -77,15 +99,29 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        if(view == pagarButton)
+        if (view == pagarButton){
+            mensagem("to aq");
             processamentoDoPagamento();
-        else if(view == copiaEmailButton)
-            setClipboard(this, "sb-h43cjy1199107@personal.example.com");
+        }
+        else if(view == subtrairImageButton){
+            Integer integer = Integer.valueOf(quantiaTextView.getText().toString());
+            integer -= 10;
+            quantiaTextView.setText(integer + "");
+
+
+
+
+        }else if(view == adicionarImageButton){
+            Integer integer = Integer.valueOf(quantiaTextView.getText().toString());
+            integer += 10;
+            quantiaTextView.setText(integer + "");
+
+        }
     }
 
     private void processamentoDoPagamento() {
 
-        quantia = quantiaEditText.getText().toString();
+        quantia = quantiaTextView.getText().toString();
         BigDecimal quantiaBigDecimal = new BigDecimal(String.valueOf(quantia));
 
         PayPalPayment payPalPayment = new PayPalPayment(quantiaBigDecimal, "BRL", "Pagamento no valor de", PayPalPayment.PAYMENT_INTENT_SALE);
@@ -109,6 +145,7 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
                 if (confirmation != null) {
                     try {
                         String paymentDetails = confirmation.toJSONObject().toString(4);
+
                         Intent intent = new Intent(this, DetalhesPagamentoActivity.class)
                                 .putExtra("DetalhesPagamento", paymentDetails)
                                 .putExtra("projeto", projeto)
@@ -120,14 +157,14 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
                         e.printStackTrace();
                     }
                 }
-            }else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
                 mensagem("Cancelado");
             }
         }
     }
 
     private void setClipboard(Context context, String text) {
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.HONEYCOMB) {
             android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setText(text);
         } else {

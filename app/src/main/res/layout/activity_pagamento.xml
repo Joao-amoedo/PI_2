@@ -1,38 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#ecf0f1"
+    android:orientation="vertical"
     tools:context=".Activity.PagamentoActivity">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="30dp"
         android:orientation="vertical">
 
-
-        <EditText
-            android:id="@+id/idEditTextPagamentoActivityQuantia"
+        <TextView
+            android:id="@+id/idTextviewPagamentoActivityTituloProjeto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Entre com a quantia" />
+            android:background="@drawable/shape"
+            android:gravity="center"
+            android:text="Titulo do projeto"
+            android:textColor="#000"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="Quantidade a ser doado"
+            android:textColor="#000"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Valor minimo de 1R$"
+            android:textSize="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/idButtonPagamentoActivitySubtrair"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/shape"
+                    app:srcCompat="@drawable/remove" />
+
+                <ImageButton
+                    android:id="@+id/idButtonPagamentoActivityAdicionar"
+                    android:layout_width="40dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/shape"
+                    app:srcCompat="@drawable/add" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:gravity="center|right"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+
+                    android:background="@drawable/shape"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/idEditTextPagamentoActivityQuantia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape"
+                    android:gravity="right|center"
+                    android:textSize="16dp"
+                    android:text="10"
+                    android:textColor="#16a085" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/shape"
+                    android:gravity="right|center"
+                    android:textSize="16dp"
+                    android:text=" R$"
+                    android:textColor="#16a085" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:gravity="bottom">
 
         <Button
             android:id="@+id/idButtonPagamentoActivityPagar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pagar agora" />
+            android:layout_margin="30dp"
+            android:background="#2F9314"
+            android:text="Pagar"
+            android:textColor="#FFFFFF" />
 
-        <Button
-            android:id="@+id/idButtonPagamentoActivityCopiaEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Copia Email" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
 
-</RelativeLayout>
+</LinearLayout>
