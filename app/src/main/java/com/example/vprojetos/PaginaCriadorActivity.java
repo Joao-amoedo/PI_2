@@ -54,7 +54,7 @@ public class PaginaCriadorActivity extends Activity {
         quantidadeContribuicoesTextView.setText(quantidadeContribuicoes + "");
         quantidadeProjetosCriadosTextView.setText(quantidadeProjetosCriados + "");
         enderecoTextView.setText( usuario.getPais() + ", " + usuario.getEstado() );
-        dataUltimaConexaoTextView.setText(usuario.getUltimoLogin());
+        //dataUltimaConexaoTextView.setText(usuario.getUltimoLogin());
 
     }
 

@@ -75,9 +75,10 @@ public class Usuario implements Serializable {
             }
         }
 
+        /*
         if (map.containsKey("ultimoLogin")) {
             this.ultimoLogin = (String) map.get("ultimoLogin");
-        }
+        }*/
 
 
     }
