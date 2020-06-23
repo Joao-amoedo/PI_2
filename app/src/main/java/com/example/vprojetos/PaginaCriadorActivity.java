@@ -53,17 +53,10 @@ public class PaginaCriadorActivity extends Activity {
         nomeTextView.setText(nome);
         quantidadeContribuicoesTextView.setText(quantidadeContribuicoes + "");
         quantidadeProjetosCriadosTextView.setText(quantidadeProjetosCriados + "");
-        setUltimaConexao(dataUltimaConexaoTextView);
-    }
-
-    private void setUltimaConexao(TextView dataUltimaConexaoTextView) {
-        SimpleDateFormat formatador = new SimpleDateFormat("dd/mm/yyyy");
-        Long ultimoLogin = usuario.getUltimoLogin();
-        Date ultimoLoginDate= new Date(ultimoLogin);
-        String dataFormatada = formatador.format(ultimoLoginDate);
-        dataUltimaConexaoTextView.setText(dataFormatada);
-
-
+        enderecoTextView.setText( usuario.getPais() + ", " + usuario.getEstado() );
+        dataUltimaConexaoTextView.setText(usuario.getUltimoLogin());
 
     }
+
+
 }
