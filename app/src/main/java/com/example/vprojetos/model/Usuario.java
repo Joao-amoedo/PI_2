@@ -31,6 +31,8 @@ public class Usuario implements Serializable {
     private String ultimoLogin;
     private String estado;
     private String pais;
+    private String dataCriacao;
+
 
     public Usuario() {
 
@@ -49,6 +51,8 @@ public class Usuario implements Serializable {
         this.email = (String) map.get("email");
         this.pais = (String) map.get("pais");
         this.estado = (String) map.get("estado");
+        this.dataCriacao = (String) map.get("dataCriacao");
+
 
         if (map.containsKey("doacoes"))
             this.doacoes = (HashMap<String, Double>) map.get("doacoes");
@@ -195,7 +199,7 @@ public class Usuario implements Serializable {
     }
 
     public void setUltimoLogin() {
-        SimpleDateFormat formatador = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
         long ultimoLogin = new Date().getTime();
         String dataFormatada = formatador.format(ultimoLogin);
         this.ultimoLogin = dataFormatada;
@@ -203,17 +207,17 @@ public class Usuario implements Serializable {
 
     public void addDoacoes(String nome, double novoValor) {
 
-        if(doacoes.containsKey(nome)){
+        if (doacoes.containsKey(nome)) {
             Object aDouble = doacoes.get(nome);
             Double valor;
-            if(aDouble.getClass() == Long.class){
+            if (aDouble.getClass() == Long.class) {
                 valor = ((Long) aDouble).doubleValue();
-            }else{
+            } else {
                 valor = (Double) aDouble;
             }
 
             doacoes.put(nome, novoValor + valor);
-        }else{
+        } else {
             doacoes.put(nome, novoValor);
         }
 
@@ -222,5 +226,14 @@ public class Usuario implements Serializable {
     public void addNotas(String nome, int nota) {
         this.notas.put(nome, nota);
     }
+
+    public void setDataCriacao(String dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+
 }
 

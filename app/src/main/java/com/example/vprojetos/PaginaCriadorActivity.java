@@ -18,6 +18,7 @@ public class PaginaCriadorActivity extends Activity {
     private TextView dataCriacaoContaTextView;
     private TextView quantidadeContribuicoesTextView;
     private TextView quantidadeProjetosCriadosTextView;
+    private TextView dataUltimaConexaoTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class PaginaCriadorActivity extends Activity {
         dataCriacaoContaTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityEmail);
         quantidadeContribuicoesTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityQuantidadeContribuicoes);
         quantidadeProjetosCriadosTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityQuantidadeProjetosCriados);
-        TextView dataUltimaConexaoTextView =  findViewById(R.id.idTextViewPaginaUsuarioActivityCPF);
+        dataUltimaConexaoTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityCPF);
 
 
 
@@ -54,9 +55,8 @@ public class PaginaCriadorActivity extends Activity {
         quantidadeContribuicoesTextView.setText(quantidadeContribuicoes + "");
         quantidadeProjetosCriadosTextView.setText(quantidadeProjetosCriados + "");
         enderecoTextView.setText( usuario.getPais() + ", " + usuario.getEstado() );
+        dataCriacaoContaTextView.setText(usuario.getDataCriacao());
         dataUltimaConexaoTextView.setText(usuario.getUltimoLogin());
 
     }
-
-
 }

@@ -24,6 +24,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class CadastroActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText campoNomeCompleto, campoEmail, campoSenha, campoConfirmarSenha;
@@ -35,6 +38,7 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
     private final int CODE_MAPS = 999;
     private String pais = "";
     private String estado = "";
+    private String dataCriacao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +95,13 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         Usuario usuario = Usuario.usuario;
         usuario.setEmail(campoEmail.getText().toString());
         usuario.setNome(campoNomeCompleto.getText().toString());
-
         usuario.setPais(pais);
         usuario.setEstado(estado);
-
+        getDataCriacaoFormatada();
+        usuario.setDataCriacao(dataCriacao);
         UsuarioDAO.saveUsuario();
+
+
     }
 
 
@@ -156,4 +162,11 @@ public class CadastroActivity extends AppCompatActivity implements View.OnClickL
         }
 
     }
+
+    private void getDataCriacaoFormatada(){
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        long ultimoLogin = new Date().getTime();
+        dataCriacao = formatador.format(ultimoLogin);
+    }
+
 }
