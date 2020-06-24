@@ -23,8 +23,8 @@
         android:layout_margin="10dp"
         android:gravity="center"
         android:text="João Pedro"
-        android:textStyle="bold"
-        android:textSize="24dp" />
+        android:textSize="24dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/idTextViewPaginaUsuarioActivityEndereco"
@@ -63,9 +63,6 @@
         android:orientation="vertical">
 
 
-
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,8 +72,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Email: "
-                android:drawableLeft="@drawable/ic_email_black_24dp"/>
+                android:drawableLeft="@drawable/ic_email_black_24dp"
+                android:text="Email: " />
 
             <TextView
                 android:id="@+id/idTextViewPaginaUsuarioActivityEmail"
@@ -93,34 +90,7 @@
             android:layout_marginTop="10dp"
             android:background="#808080" />
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CPF:"
-                android:drawableLeft="@drawable/ic_person_black_24dp"
-                />
-
-            <TextView
-                android:id="@+id/idTextViewPaginaUsuarioActivityCPF"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-
-                android:text="000.000.000-00" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="10dp"
-            android:background="#808080" />
 
         <LinearLayout
             android:layout_width="wrap_content"

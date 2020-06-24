@@ -44,27 +44,32 @@ public class ProjetoDAO {
                                                   final Activity activity,
                                                   final Uri fileImageCapaPath,
                                                   final List<Uri> imagensSecundarias) {
-        Conexao.getDatabase().child("projetos").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
-                HashMap<String, Object> projetosBanco = (HashMap<String, Object>) dataSnapshot.getValue();
+        Conexao
+                .getDatabase()
+                .child("projetos")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull final DataSnapshot dataSnapshot) {
+                        HashMap<String, Object> projetosBanco = (HashMap<String, Object>) dataSnapshot.getValue();
 
+                        if(projetosBanco == null)
+                            mensagem(activity, "campo ta super nulo");
 
-                if (projetosBanco.containsKey(projeto.getNome())) {
-                    // NOME JÁ EXISTE NO BANCO
-                    mensagem(activity, "Projeto já existe com esse nome");
-                } else {
-                    // NOME DO PROJETO NÃO EXISTE, CRIAR NOVO PROJETO NO BANCO
-                    gravaImagemEProjetoNoBanco(dataSnapshot, activity, projeto, fileImageCapaPath, imagensSecundarias);
+                        if (projetosBanco != null && projetosBanco.containsKey(projeto.getNome())) {
+                            // NOME JÁ EXISTE NO BANCO
+                            mensagem(activity, "Projeto já existe com esse nome");
+                        } else {
+                            // NOME DO PROJETO NÃO EXISTE, CRIAR NOVO PROJETO NO BANCO
+                            gravaImagemEProjetoNoBanco(dataSnapshot, activity, projeto, fileImageCapaPath, imagensSecundarias);
 
-                }
-            }
+                        }
+                    }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
+                    }
+                });
     }
 
     private static void gravaImagemEProjetoNoBanco(@NonNull final DataSnapshot dataSnapshot,
@@ -218,8 +223,6 @@ public class ProjetoDAO {
                 .setValue(projeto);
 
     }
-
-
 
 
 }

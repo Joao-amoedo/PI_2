@@ -16,7 +16,6 @@ public class PaginaUsuarioActivity extends AppCompatActivity {
     private TextView enderecoTextView;
     private TextView emailTextView;
     private TextView bioTextView;
-    private TextView cpfTextView;
     private Usuario usuario;
 
     @Override
@@ -29,7 +28,6 @@ public class PaginaUsuarioActivity extends AppCompatActivity {
     }
 
     private void inicializa() {
-        cpfTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityCPF);
         bioTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityBio);
         emailTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityEmail);
         enderecoTextView = findViewById(R.id.idTextViewPaginaUsuarioActivityEndereco);
@@ -39,11 +37,11 @@ public class PaginaUsuarioActivity extends AppCompatActivity {
 
         usuario = Usuario.usuario;
 
-        cpfTextView.setText(usuario.getCpf());
         emailTextView.setText(usuario.getEmail());
         nomeTextView.setText(usuario.getNome());
         quantidadeContribuicoesTextView.setText(usuario.getDoacoes().size() + "");
         quantidadeProjetosCriacdosTextView.setText(usuario.getProjetosCriados().size() + "");
+        enderecoTextView.setText(usuario.getPais() + "," + usuario.getEstado());
 
 
 

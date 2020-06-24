@@ -73,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         paginaUsuarioImageView = findViewById(R.id.idImageViewPaginaCriadorActivityImagem);
 
 
-
         findViewById(R.id.idImageViewMainActivityChatBot);
         listaProjetosRecyclerView = findViewById(R.id.idRecyclerViewMainActivityListaDeProjetos);
         arrayImagensSecundarias = new ArrayList<>();
@@ -95,11 +94,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == criarProjetoImageView) {
             Intent intent = new Intent(this, CadastroNovoProjetoActivity.class);
             startActivity(intent);
-        }else if(view == chatBotImageView){
+        } else if (view == chatBotImageView) {
             Intent intent = new Intent(MainActivity.this,ChatActivity.class);
             startActivity(intent);
-
-        }else if(view == paginaUsuarioImageView){
+        } else if (view == paginaUsuarioImageView) {
             startActivity(new Intent(this, PaginaUsuarioActivity.class));
         }
     }
@@ -112,9 +110,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void ordenaProjetos(Projeto[] arrayProjetos, int comparacao, boolean decrescente) {
         QuickSort quickSort = new QuickSort(comparacao);
-        quickSort.sort(arrayProjetos, 0, arrayProjetos.length - 1 );
+        quickSort.sort(arrayProjetos, 0, arrayProjetos.length - 1);
         listProjeto = Arrays.asList(arrayProjetos);
-        if(decrescente)
+        if (decrescente)
             Collections.reverse(listProjeto);
     }
 
@@ -138,10 +136,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
         pegaTodosProjetos(dataSnapshot);
-
-
-        configureAdapter(listProjeto);
-
+        //configureAdapter(listProjeto);
 
     }
 
@@ -154,15 +149,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void pegaTodosProjetos(@NonNull DataSnapshot dataSnapshot) {
         listProjeto = new ArrayList<>();
+
         HashMap<String, HashMap<String, Object>> map =
                 (HashMap<String, HashMap<String, Object>>) dataSnapshot.getValue();
-        for (String key : map.keySet()) {
-            Projeto projeto = new Projeto(map.get(key));
-            listProjeto.add(projeto);
+
+
+        if (map != null) {
+            for (String key : map.keySet()) {
+                Projeto projeto = new Projeto(map.get(key));
+                listProjeto.add(projeto);
+            }
+            ordenaMediaDecrescente();
         }
-
-        ordenaMediaDecrescente();
-
     }
 
     @Override

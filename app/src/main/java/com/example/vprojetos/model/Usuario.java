@@ -7,6 +7,7 @@ import android.widget.Toast;
 import com.example.vprojetos.Activity.LoginActivity;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -27,7 +28,10 @@ public class Usuario implements Serializable {
     private List<String> projetosCriados = new ArrayList<>();
     private String bio;
     private HashMap<String, Object> map = new HashMap<String, Object>();
-    private Long ultimoLogin;
+    private String ultimoLogin;
+    private String estado;
+    private String pais;
+    private String dataCriacao;
 
 
     public Usuario() {
@@ -45,6 +49,11 @@ public class Usuario implements Serializable {
         this.nome = (String) map.get("nome");
         this.cpf = (String) map.get("cpf");
         this.email = (String) map.get("email");
+        this.pais = (String) map.get("pais");
+        this.estado = (String) map.get("estado");
+        this.dataCriacao = (String) map.get("dataCriacao");
+
+
         if (map.containsKey("doacoes"))
             this.doacoes = (HashMap<String, Double>) map.get("doacoes");
         if (map.containsKey("notas"))
@@ -53,7 +62,6 @@ public class Usuario implements Serializable {
             this.comentario = (HashMap<String, String>) map.get("comentario");
 
 
-        //TODO arrumar essa bagunça
         //Pegando projetos criados, ele pode vir como array
         // list ou hash map, dependendo se um projeto foi deletado ou não
         if (map.containsKey("projetosCriados")) {
@@ -70,13 +78,33 @@ public class Usuario implements Serializable {
             }
         }
 
+
         if (map.containsKey("ultimoLogin")) {
-            this.ultimoLogin = (Long) map.get("ultimoLogin");
+            this.ultimoLogin = (String) map.get("ultimoLogin");
         }
 
 
     }
 
+    public void setUltimoLogin(String ultimoLogin) {
+        this.ultimoLogin = ultimoLogin;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
 
     public List<String> getProjetosCriados() {
         return projetosCriados;
@@ -166,27 +194,30 @@ public class Usuario implements Serializable {
         this.bio = bio;
     }
 
-    public Long getUltimoLogin() {
+    public String getUltimoLogin() {
         return ultimoLogin;
     }
 
     public void setUltimoLogin() {
-        this.ultimoLogin = new Date().getTime();
+        SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyyy");
+        long ultimoLogin = new Date().getTime();
+        String dataFormatada = formatador.format(ultimoLogin);
+        this.ultimoLogin = dataFormatada;
     }
 
     public void addDoacoes(String nome, double novoValor) {
 
-        if(doacoes.containsKey(nome)){
+        if (doacoes.containsKey(nome)) {
             Object aDouble = doacoes.get(nome);
             Double valor;
-            if(aDouble.getClass() == Long.class){
+            if (aDouble.getClass() == Long.class) {
                 valor = ((Long) aDouble).doubleValue();
-            }else{
+            } else {
                 valor = (Double) aDouble;
             }
 
             doacoes.put(nome, novoValor + valor);
-        }else{
+        } else {
             doacoes.put(nome, novoValor);
         }
 
@@ -195,5 +226,14 @@ public class Usuario implements Serializable {
     public void addNotas(String nome, int nota) {
         this.notas.put(nome, nota);
     }
+
+    public void setDataCriacao(String dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public String getDataCriacao() {
+        return dataCriacao;
+    }
+
 }
 
