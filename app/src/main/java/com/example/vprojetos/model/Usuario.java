@@ -62,7 +62,6 @@ public class Usuario implements Serializable {
             this.comentario = (HashMap<String, String>) map.get("comentario");
 
 
-        //TODO arrumar essa bagunça
         //Pegando projetos criados, ele pode vir como array
         // list ou hash map, dependendo se um projeto foi deletado ou não
         if (map.containsKey("projetosCriados")) {
@@ -78,6 +77,7 @@ public class Usuario implements Serializable {
 
             }
         }
+
 
         if (map.containsKey("ultimoLogin")) {
             this.ultimoLogin = (String) map.get("ultimoLogin");
