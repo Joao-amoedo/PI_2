@@ -33,7 +33,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText campoEmail, campoSenha;
     private Button entrarButton;
@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         inicializa();
 
     }
-
 
 
     private void inicializa() {
@@ -156,11 +155,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        if (view == entrarButton){
+        if (view == entrarButton) {
             entrar();
-        }else if(view == cadastrarTextView){
+        } else if (view == cadastrarTextView) {
             cadastrar();
-        }else if(view == esqueciSenhaTextView){
+        } else if (view == esqueciSenhaTextView) {
             esqueciSenha();
         }
     }
