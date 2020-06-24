@@ -8,6 +8,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -271,7 +272,7 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
 
         reference
                 .child("projetos")
-                .child("abc")
+                .child(projeto.getNome())
                 .child(numeroDaImagem + ".png")
                 .getFile(file)
                 .addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -284,6 +285,7 @@ public class PaginaProjetoActivity extends Activity implements View.OnClickListe
             @Override
             public void onFailure(@NonNull Exception e) {
                 dialog.dismiss();
+                Log.i("teste", "" + numeroDaImagem);
                 startDescricaoProjeto();
             }
         });
