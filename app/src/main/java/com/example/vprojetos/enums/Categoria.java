@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public enum Categoria {
 
-    Jogos, Filmes, Teatro;
+    Jogos, Filmes, Teatro, Tecnologia, Musica, Curso, Alimentação, Moda, Outros;
 
     public static String[] getAllEnums(){
         // Retorna todos os ENUMs em um Array de string
