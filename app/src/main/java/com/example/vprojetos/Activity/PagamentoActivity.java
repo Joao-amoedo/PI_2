@@ -100,16 +100,13 @@ public class PagamentoActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         if (view == pagarButton){
-            mensagem("to aq");
             processamentoDoPagamento();
         }
         else if(view == subtrairImageButton){
             Integer integer = Integer.valueOf(quantiaTextView.getText().toString());
-            integer -= 10;
+            if(Integer.parseInt(quantiaTextView.getText().toString()) > 10)
+                integer -= 10;
             quantiaTextView.setText(integer + "");
-
-
-
 
         }else if(view == adicionarImageButton){
             Integer integer = Integer.valueOf(quantiaTextView.getText().toString());

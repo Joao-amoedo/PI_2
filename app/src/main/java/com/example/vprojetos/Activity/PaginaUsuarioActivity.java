@@ -43,10 +43,6 @@ public class PaginaUsuarioActivity extends AppCompatActivity {
         quantidadeProjetosCriacdosTextView.setText(usuario.getProjetosCriados().size() + "");
         enderecoTextView.setText(usuario.getPais() + "," + usuario.getEstado());
 
-
-
-
-
     }
 
 

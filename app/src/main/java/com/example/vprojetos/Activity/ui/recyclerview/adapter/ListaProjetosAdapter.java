@@ -133,7 +133,8 @@ public class ListaProjetosAdapter extends RecyclerView.Adapter<ListaProjetosAdap
             titulo.setText(projeto.getNome());
 
             double porcentagem = projeto.getDinheiroArrecadado() / projeto.getDinheiroAlvo();
-            arrecadado.setText(porcentagem + "%");
+            String format = String.format("%.2f", porcentagem * 100);
+            arrecadado.setText(format + '%');
             doadores.setText(projeto.getUsuariosDoacoes().size() + "");
 
 
